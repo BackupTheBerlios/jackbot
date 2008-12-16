@@ -6,7 +6,7 @@ tar :
 	@echo "JacKBot backed up!"
 
 botlib :
-	if ! test -d dev/lib; then mkdir dev/lib; fi
+	if ! test -d bin/lib; then mkdir bin/lib; fi
 	$(MAKE) -C dev/src/lib/
 
 objs :

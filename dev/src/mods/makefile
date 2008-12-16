@@ -10,4 +10,4 @@ $(MODS_OBJS): $(MODS_SRCS)
 	$(CC) $(CLAGS) $(INCLUDES) -c -o $@ $(@:%.o=%.c)
 
 $(MODS_TRGT): $(MODS_OBJS)
-	ld -L../../lib -shared -o $@ $(notdir $(@:%.so=%.o)) -lc -ljackbot
+	ld -rpath ../../../bin/lib -L../../../bin/lib -shared -o $@ $(notdir $(@:%.so=%.o)) -lc -ljackbot

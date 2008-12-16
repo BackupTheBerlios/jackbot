@@ -1,12 +1,13 @@
 CC = gcc
-CFLAGS = -ggdb -c -Wall -Werror -Wextra
+CFLAGS = -ggdb -c -Wall -Werror -Wextra -fPIC
 LD = ld
-BOTLIB = ../../lib/libjackbot.a
-BOTOBJ = $(notdir $(BOTLIB:.a=.o))
+BOTLIB = ../../../bin/lib/libjackbot.so # vorher .a
+BOTOBJ = $(notdir $(BOTLIB:.so=.o))
 
 $(BOTLIB): $(BOTOBJ)
 #$(LD) -lc -static -soname $(notdir $(BOTLIB)) -o $(BOTLIB) $^
-	ar rcs $(BOTLIB) $(BOTOBJ)
+#	ar rcs $(BOTLIB) $(BOTOBJ)
+	$(LD) -shared -o $(BOTLIB) $(BOTOBJ)
 
 $(BOTOBJ): %.o: %.c
 	$(CC) $(CFLAGS) -o $@ $<
