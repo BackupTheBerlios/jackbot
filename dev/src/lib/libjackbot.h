@@ -15,7 +15,7 @@
 
 #define APP_NAME "JacKBot"
 #define AUTHOR   "JacK_McRiDER"
-#define VERSION  "0.1"
+#define VERSION  "0.2-BETA"
 
 #undef HOST_NAME_MAX
 #define HOST_NAME_MAX  255
