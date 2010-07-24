@@ -7,8 +7,8 @@ struct _Mods_ _mod_info =
   NULL,
   &sag,
   "Sag",
-  "SAG",
-  " ",
+  "sag",
+  "",
   ""
 };
 

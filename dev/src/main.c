@@ -91,7 +91,7 @@ void main_while(void)
 {
   int bytes;
   int pos;
-  int msg_pos;
+  int msg_pos = 0;
   int cmd_len;
   int ctr = 0;
   char msg[MSG_MAX + 1];
@@ -101,14 +101,18 @@ void main_while(void)
   while(1)
   {
     bytes = recv(nfos->server->socket, buffer, 1024, 0);
-
-    for(pos = 0, msg_pos = 0; pos < bytes; pos++, msg_pos++)
+#ifdef DEBUG    
+    printf("buff: %.*s\n", bytes, buffer);
+#endif // DEBUG
+    
+    for(pos = 0; pos < bytes;)
     {
-      if(buffer[pos] == /*'\r' && buffer[pos + 1] ==*/ '\n')
+      if(buffer[pos] == '\r' && buffer[pos + 1] == '\n')
       {
 	msg[msg_pos] = '\0';
         parse_msg(msg);
-#ifdef DEBUG
+#ifdef DEBUG	
+	printf("msg:  %s\n", msg);
         printf("PRIVMSG #bot :\n"
           "nfos\n"
           "  server\n"
@@ -135,9 +139,11 @@ void main_while(void)
 	  (nfos->sender->command) ? nfos->sender->command : "",
 	  (nfos->sender->request_nr) ? nfos->sender->request_nr : "",
 	  nfos->sender->message);
+
+	fflush(stdout);
 	  
         //send_irc(buffer);
-#endif
+#endif // DEBUG
 	
         nfos->mods = nfos->first_mod;
         memset(cmd, 0, MOD_CMD_MAX + 1);
@@ -164,9 +170,12 @@ void main_while(void)
           nfos->mods = nfos->mods->next;
         }while(nfos->mods);
       
-        msg_pos = 0;
+        msg_pos = 0; // new line
+	pos += 2; // point behind <crlf>
       }else
-        msg[msg_pos] = buffer[pos];
+      {
+        msg[msg_pos++] = buffer[pos++];
+      }
     }
   }
 

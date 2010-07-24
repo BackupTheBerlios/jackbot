@@ -14,5 +14,6 @@ struct _Mods_ _mod_info =
 
 void ping(struct _Nfos_ *nfos)
 {
-  irc_cmd("PONG %s", nfos->sender->message);
+  irc_cmd("PONG %s", &nfos->sender->message[1]);
+  printf("Pong %s", &nfos->sender->message[1]);
 }

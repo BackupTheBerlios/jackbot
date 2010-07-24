@@ -50,10 +50,11 @@ void parse_msg(char *msg)
     strncpy(nfos->sender->command, tmp_str, SERVER_CMD_MAX + 1);
   }else // if we have a request number
   {
+    strcpy(nfos->sender->command, "0");
     //sprintf(nfos->sender->request_nr, "%c%c%c", msg[msg_pos], msg[++msg_pos], msg[++msg_pos]); // is that fine code???
     nfos->sender->request_nr[0] = msg[msg_pos];
-    nfos->sender->request_nr[1] = msg[msg_pos++];
-    nfos->sender->request_nr[2] = msg[msg_pos++];
+    nfos->sender->request_nr[1] = msg[++msg_pos];
+    nfos->sender->request_nr[2] = msg[++msg_pos];
     nfos->sender->request_nr[3] = '\0';
 
     msg_pos++;
@@ -62,9 +63,7 @@ void parse_msg(char *msg)
   while(msg[msg_pos] == ' ')
     msg_pos++;
 
-  // now the rest is called "message", so all of these <params> are 'ignored', just the <crlf> will be excluded
-  msg[strlen(msg) - 1] = '\0';
-  //  ^the lf \n    ^the cr \r
+  // now the rest is called "message", so all of these <params> are 'ignored'
 
   //strncpy(nfos->sender->message, &msg[msg_pos], MSG_MAX + 1);
   snprintf(nfos->sender->message, MSG_MAX + 1, "%s", &msg[msg_pos]);
