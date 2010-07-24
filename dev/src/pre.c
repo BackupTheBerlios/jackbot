@@ -97,12 +97,12 @@ inline void do_connect(void)
 
   irc_cmd("NICK %s", nfos->server->nickname);
   // next two lines are just for debugging
-  recv(nfos->server->socket, buffer_, 1024, 0);
-  print_color(CLR_MSG, buffer_);
+  //recv(nfos->server->socket, buffer_, 1024, 0);
+  //print_color(CLR_MSG, buffer_);
   irc_cmd("USER %s 0 0 :%s by %s", nfos->server->nickname, APP_NAME, AUTHOR);
   // next two lines are just for debugging
-  recv(nfos->server->socket, buffer_, 1024, 0);
-  print_color(CLR_MSG, buffer_);
+  //recv(nfos->server->socket, buffer_, 1024, 0);
+  //print_color(CLR_MSG, buffer_);
 
   print_color(CLR_OK, " OK!\n");
 

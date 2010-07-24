@@ -6,6 +6,8 @@
 #ifndef _LIBJACKBOT_H_
 #define _LIBJACKBOT_H_
 
+//#define DEBUG 1
+
 #include <string.h>
 #include <stdio.h>
 #include <sys/types.h>
@@ -15,6 +17,7 @@
 #define AUTHOR   "JacK_McRiDER"
 #define VERSION  "0.1"
 
+#undef HOST_NAME_MAX
 #define HOST_NAME_MAX  255
 #define PORT_MAX       5
 #define NICK_NAME_MAX  24

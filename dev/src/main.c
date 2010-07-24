@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
     "\xB3                                                 \xB3\n"
     "\xB3                                                 \xB3\n"
     "\xB3       \xC9\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xBB       \xB3\n"
-    "\xB3       \xBA WELCOME! YOU GOT THE JACKBOT!!! \xBA       \xB3\n"
+    "\xB3       \xBA WELCOME! YOU'VE GOT THE JACKBOT \xBA       \xB3\n"
     "\xB3       \xBA                                 \xBA       \xB3\n"
     "\xB3       \xBA    visit jack_mcrider.6x.to     \xBA       \xB3\n"
     "\xB3       \xBA         for more stuff...       \xBA       \xB3\n"
@@ -74,6 +74,9 @@ int main(int argc, char *argv[])
 void usage(char *prog_name)
 {
   printf_color(CLR_OK, "%s v%s by %s\n", APP_NAME, VERSION, AUTHOR);
+#ifdef DEBUG
+  print_color(CLR_ERROR, "COMPILED WITH DEBUG OUTPUT\n");
+#endif
   printf_color(CLR_ERROR, "usage: %s -s server [-n nick] [-p port] [-h]\n", prog_name);
   printf_color(CLR_MSG, " -s server\tserver to connect to\n"
      " -n nick\tnickname (default: %s)\n"
@@ -99,12 +102,14 @@ void main_while(void)
   {
     bytes = recv(nfos->server->socket, buffer, 1024, 0);
 
-    for(pos = 0; pos < bytes; pos++, msg_pos++)
+    for(pos = 0, msg_pos = 0; pos < bytes; pos++, msg_pos++)
     {
-      if(buffer[pos] == '\r' && buffer[pos + 1] == '\n')
+      if(buffer[pos] == /*'\r' && buffer[pos + 1] ==*/ '\n')
       {
+	msg[msg_pos] = '\0';
         parse_msg(msg);
-        sprintf(buffer, "PRIVMSG #bottestchannel :\n"
+#ifdef DEBUG
+        printf("PRIVMSG #bot :\n"
           "nfos\n"
           "  server\n"
           "    int  socket     = %d;\n"
@@ -119,27 +124,38 @@ void main_while(void)
           "    char command[]    = \"%s\";\n"
           "    char request_nr[] = \"%s\";\n"
           "    char message[]    = \"%s\";\n",
-          nfos->server->socket, nfos->server->hostname, nfos->server->ip, nfos->server->port,
-          (nfos->sender->nickname) ? nfos->sender->nickname : "", (nfos->sender->user) ? nfos->sender->nickname : "", (nfos->sender->host) ? nfos->sender->host : "", (nfos->sender->servername) ? nfos->sender->servername : "", (nfos->sender->command) ? nfos->sender->command : "", (nfos->sender->request_nr) ? nfos->sender->request_nr : "", nfos->sender->message);
-    
-        print_color(CLR_MSG, buffer);
-        send_irc(buffer);
-
+          nfos->server->socket,
+	  nfos->server->hostname,
+	  nfos->server->ip,
+	  nfos->server->port,
+          (nfos->sender->nickname) ? nfos->sender->nickname : "",
+	  (nfos->sender->user) ? nfos->sender->nickname : "",
+	  (nfos->sender->host) ? nfos->sender->host : "",
+	  (nfos->sender->servername) ? nfos->sender->servername : "",
+	  (nfos->sender->command) ? nfos->sender->command : "",
+	  (nfos->sender->request_nr) ? nfos->sender->request_nr : "",
+	  nfos->sender->message);
+	  
+        //send_irc(buffer);
+#endif
+	
         nfos->mods = nfos->first_mod;
         memset(cmd, 0, MOD_CMD_MAX + 1);
 
-        while(nfos->sender->message[ctr] != ':')
+	ctr = 0;
+	while(nfos->sender->message[ctr] != ':')
           ctr++;
-        ctr++;
+        ctr++; // point after the colon
 
         if((!strcmp(nfos->sender->command, "PRIVMSG") || !strcmp(nfos->sender->command, "NOTICE")) && ctr > 1 && nfos->sender->message[ctr] == CMD_PREFIX)
         {
-          ctr++; // point after the CMD_PREFIX
+	  ctr++; // point after the CMD_PREFIX
           for(cmd_len = 0; nfos->sender->message[ctr + cmd_len] != ' ' && cmd_len < MOD_CMD_MAX; cmd_len++)
             cmd[cmd_len] = nfos->sender->message[ctr + cmd_len];
-        }
-
-        cmd[cmd_len] = '\0'; 
+	  
+	  cmd[cmd_len] = '\0';
+        }else
+	  strcpy(cmd, "0");
 
         do
         {

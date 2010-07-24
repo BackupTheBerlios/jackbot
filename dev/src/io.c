@@ -35,11 +35,11 @@ void parse_msg(char *msg)
     tmp_str[cur_pos] = '\0';
 
     parse_prefix(tmp_str + 1); // not sending the colon (:)
+    
+    // because RFC 1459 define <SPACE> as one ' ' _or more_
+    while(msg[msg_pos] == ' ')
+      msg_pos++;
   }
-
-  // because RFC 1459 define <SPACE> as one ' ' _or more_
-  while(msg[msg_pos] == ' ')
-    msg_pos++;
 
   //get the command
   if(isalpha(msg[msg_pos])) // if it as a command
@@ -50,7 +50,7 @@ void parse_msg(char *msg)
     strncpy(nfos->sender->command, tmp_str, SERVER_CMD_MAX + 1);
   }else // if we have a request number
   {
-    //sprintf(nfos->sender->request_nr, "%c%c%c", msg[msg_pos], msg[msg_pos++], msg[msg_pos++]); // is that fine code???
+    //sprintf(nfos->sender->request_nr, "%c%c%c", msg[msg_pos], msg[++msg_pos], msg[++msg_pos]); // is that fine code???
     nfos->sender->request_nr[0] = msg[msg_pos];
     nfos->sender->request_nr[1] = msg[msg_pos++];
     nfos->sender->request_nr[2] = msg[msg_pos++];
