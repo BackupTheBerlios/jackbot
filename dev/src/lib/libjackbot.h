@@ -57,23 +57,23 @@ typedef struct _Server_
 
 typedef struct _Sender_
 {
-  char nickname[NICK_NAME_MAX + 1]; // nick
-  char user[NICK_NAME_MAX + 1]; // user
-  char host[HOST_NAME_MAX + 1]; // host
+  char nickname[NICK_NAME_MAX + 1];   // nick
+  char user[NICK_NAME_MAX + 1];       // user
+  char host[HOST_NAME_MAX + 1];       // host
   char servername[HOST_NAME_MAX + 1]; // servername; see RFC 952 for max length
-  char command[SERVER_CMD_MAX + 1]; // command
-  char request_nr[3 + 1]; // requestnumber (as a string!)
+  char command[SERVER_CMD_MAX + 1];   // command
+  char request_nr[3 + 1];             // requestnumber (as a string!)
   char message[MSG_MAX + 1];
 }_Sender_t;
 
 typedef struct _Mods_
 {
-  struct _Mods_ *next; // don't use it... init as NULL
+  struct _Mods_ *next;                   // don't use it... init as NULL
   void (*mod_main)(struct _Nfos_ *nfos); // pointer to the mods main, init as &your_mods_main
-  char name[MOD_NAME_MAX + 1]; // the name of your mod (20)
-  char mod_cmd[MOD_CMD_MAX + 1]; // command in message, starts with ! (20), "0" is not allowed!
-  char server_cmd[SERVER_CMD_MAX + 1]; // server message, as PRIVMSG or INVITE (8), "0" is not allowed!
-  char requests[][3 + 1]; // server request numbers (3)
+  char name[MOD_NAME_MAX + 1];           // the name of your mod (20)
+  char mod_cmd[MOD_CMD_MAX + 1];         // command in message, starts with ! (20), "0" is not allowed!
+  char server_cmd[SERVER_CMD_MAX + 1];   // server message, as PRIVMSG or INVITE (8), "0" is not allowed!
+  char requests[][3 + 1];                // server request numbers (3)
 }_Mods_t;
 
 
