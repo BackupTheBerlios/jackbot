@@ -1,10 +1,6 @@
 all : botlib objs mods jackbot
 bot : botlib objs jackbot
 
-tar :
-	@tar cf jackbot_`date +%d%m%Y`.tar `find ./ -type f \( -name "*.c" -or -name "*.h" -or -name "makefile" \)` COPYRIGHT
-	@echo "JacKBot backed up!"
-
 botlib :
 	if ! test -d bin/lib; then mkdir bin/lib; fi
 	$(MAKE) -C dev/src/lib/
