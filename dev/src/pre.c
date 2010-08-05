@@ -167,7 +167,7 @@ inline void load_mods(void)
             nfos->mods->next = NULL;
           }else
           {
-            nfos->mods->next = tmp_mod; // set pointer an new mod
+            nfos->mods->next = tmp_mod;    // set pointer to the new mod
             nfos->mods = nfos->mods->next; // set new mod as actual
             nfos->mods->next = NULL; // set pointer of next on NULL
           }
