@@ -153,7 +153,7 @@ void main_while(void)
           ctr++;
         ctr++; // point after the colon
 
-        if((!strcmp(nfos->sender->command, "PRIVMSG") || !strcmp(nfos->sender->command, "NOTICE")) && ctr > 1 && nfos->sender->message[ctr] == CMD_PREFIX)
+        if((!strcmp(nfos->sender->command, "PRIVMSG") || !strcmp(nfos->sender->command, "NOTICE")) && ctr > 1 && (nfos->sender->message[ctr] == CMD_PREFIX && isgraph(nfos->sender->message[ctr + 1])))
         {
 	  ctr++; // point after the CMD_PREFIX
           for(cmd_len = 0; nfos->sender->message[ctr + cmd_len] != ' ' && cmd_len < MOD_CMD_MAX; cmd_len++)
