@@ -111,15 +111,15 @@ void main_while(void)
       {
 	msg[msg_pos] = '\0';
         parse_msg(msg);
-#ifdef DEBUG	
+#ifdef DEBUG
 	printf("msg:  %s\n", msg);
         printf("PRIVMSG #bot :\n"
           "nfos\n"
           "  server\n"
-          "    int  socket     = %d;\n"
-          "    char hostname[] = \"%s\";\n"
-          "    char ip[]       = \"%s\";\n"
-          "    char port[]     = \"%s\";\n"
+          "    int  socket       = %d;\n"
+          "    char hostname[]   = \"%s\";\n"
+          "    char ip[]         = \"%s\";\n"
+          "    char port[]       = \"%s\";\n"
           "  sender\n"
           "    char nickname[]   = \"%s\";\n"
           "    char user[]       = \"%s\";\n"
@@ -133,7 +133,7 @@ void main_while(void)
 	  nfos->server->ip,
 	  nfos->server->port,
           (nfos->sender->nickname) ? nfos->sender->nickname : "",
-	  (nfos->sender->user) ? nfos->sender->nickname : "",
+	  (nfos->sender->user) ? nfos->sender->user : "",
 	  (nfos->sender->host) ? nfos->sender->host : "",
 	  (nfos->sender->servername) ? nfos->sender->servername : "",
 	  (nfos->sender->command) ? nfos->sender->command : "",
@@ -165,6 +165,11 @@ void main_while(void)
 
         do
         {
+
+#ifdef DEBUG
+	  printf("MOD: %s\n", nfos->mods->name);
+#endif // DEBUG
+
           if(!strcmp(nfos->sender->command, nfos->mods->server_cmd) || !strcmp(cmd, nfos->mods->mod_cmd))
             (*nfos->mods->mod_main)(nfos);
           nfos->mods = nfos->mods->next;

@@ -14,8 +14,8 @@ struct _Mods_ _mod_info =
 
 void sag(struct _Nfos_ *nfos)
 {
-  char channel[CHAN_NAME_MAX + 1];
   int ctr = 0;
+  char channel[CHAN_NAME_MAX + 1];
   
   if(nfos->sender->message[0] == '#')
   {

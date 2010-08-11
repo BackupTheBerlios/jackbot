@@ -14,8 +14,8 @@ struct _Mods_ _mod_info =
 
 void part(struct _Nfos_ *nfos)
 {
-  char channel[CHAN_NAME_MAX + 1];
   int ctr = 0;
+  char channel[CHAN_NAME_MAX + 1];
 
   for(ctr = 0; nfos->sender->message[ctr] != ' '; ctr++)
     channel[ctr] = nfos->sender->message[ctr];

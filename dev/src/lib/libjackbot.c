@@ -19,18 +19,30 @@ void send_irc(char *msg)
       msg = cmd_end + 1;
       for(line = strtok(msg, "\n"); line; line = strtok(NULL, "\n"))
       {
+	
 #ifdef __linux__
         snprintf(full_msg, MSG_MAX, "%.*s%.*s\r\n", MSG_MAX - 2, cmd, (int)(MSG_MAX - 2 - strlen(cmd)), line);
 #else
 	snprintf(full_msg, MSG_MAX, "%.*s%.*s\r\n", MSG_MAX - 2, cmd, MSG_MAX - 2 - strlen(cmd), line);
 #endif // __linux__
-        send(nfos->server->socket, full_msg, strlen(full_msg), 0);
+
+	send(nfos->server->socket, full_msg, strlen(full_msg), 0);
+	
+#ifdef DEBUG
+	printf("sent: %s\n", full_msg);
+#endif // DEBUG
+
       }
     }
   }else
   {
     snprintf(full_msg, MSG_MAX, "%.*s\r\n", MSG_MAX - 2, msg);
     send(nfos->server->socket, full_msg, strlen(full_msg), 0);
+    
+#ifdef DEBUG
+	printf("sent: %s\n", full_msg);
+#endif // DEBUG
+
   }
 
   return;
