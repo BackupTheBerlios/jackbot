@@ -7,7 +7,7 @@
 #define _PRE_H_
 
 #include <stdlib.h>
-#include <curses.h>
+//#include <curses.h>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -21,7 +21,7 @@
 #include "io.h"
 #include "main.h"
 
-#define BREAK "\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\n"
+#define BREAK "---------------------------------------------------\n"
 
 inline void init(void);
 inline void do_connect(void);

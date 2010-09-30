@@ -7,8 +7,9 @@
 
 void parse_prefix(char *prefix);
 
-void print_color(short int pair, const char *string)
+/*void print_color(short int pair, const char *string)
 {
+  pair++;
   static short int prev_pair = 0;
   
   if(pair != prev_pair)
@@ -17,7 +18,9 @@ void print_color(short int pair, const char *string)
   refresh();
 
   prev_pair = pair;
-}
+  printf("%s", string);
+  fflush(stdout);
+}*/
 
 void parse_msg(char *msg)
 {
@@ -83,7 +86,7 @@ void parse_prefix(char *prefix)
     prefix = chr_return + 1;
     if(!(chr_return = strchr(prefix, '@')))
     {
-      print_color(CLR_ERROR, "ERROR: bad message!\n");
+      printf("ERROR: bad message!\n");
       exit(EXIT_FAILURE);
     }
     *chr_return = '\0';

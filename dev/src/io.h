@@ -6,7 +6,7 @@
 #ifndef _IO_H_
 #define _IO_H_
 
-#include <ncurses.h>
+//#include <ncurses.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include "lib/libjackbot.h"
@@ -18,8 +18,8 @@
 #define CLR_HEAD  4
 
 // define macros
-#define printf_color(COLOR,...) sprintf(buffer_, __VA_ARGS__);\
-        print_color(COLOR, buffer_);
+//#define printf_color(COLOR,...) sprintf(buffer_, __VA_ARGS__);
+//        print_color(COLOR, buffer_);
 
 void print_color(short int pair, const char* string);
 void parse_msg(char *msg);

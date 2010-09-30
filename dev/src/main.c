@@ -9,23 +9,15 @@ void main_while(void);
 
 int main(int argc, char *argv[])
 {
-  int arg, is_server = false;
+  int arg, is_server = 0;
 
   init();
 
-  print_color(CLR_HEAD,
-    "\xDA\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xBF\n"
-    "\xB3                                                 \xB3\n"
-    "\xB3                                                 \xB3\n"
-    "\xB3       \xC9\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xBB       \xB3\n"
-    "\xB3       \xBA WELCOME! YOU'VE GOT THE JACKBOT \xBA       \xB3\n"
-    "\xB3       \xBA                                 \xBA       \xB3\n"
-    "\xB3       \xBA    visit jack_mcrider.6x.to     \xBA       \xB3\n"
-    "\xB3       \xBA         for more stuff...       \xBA       \xB3\n"
-    "\xB3       \xC8\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xBC       \xB3\n"
-    "\xB3                                                 \xB3\n"
-    "\xB3                                                 \xB3\n"
-    "\xC0\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xD9\n");
+  // welcome message - using ncurses, ncurses should be annihilated from the whole project...
+  printf(
+    "WELCOME! YOU'VE GOT THE JACKBOT\n"
+    "  visit http://developer.berlios.de/projects/jackbot/\n"
+    "  for more informations...\n");
  
   if(argc < 2)
   {
@@ -38,17 +30,17 @@ int main(int argc, char *argv[])
     switch(arg)
     {
       case 's': 
-        is_server = true;
+        is_server = 1;
         strncpy(nfos->server->hostname, optarg, HOST_NAME_MAX + 1);
-        printf_color(CLR_MSG, "Server   : %s\n", nfos->server->hostname);
+        printf("%s", nfos->server->hostname);
         break;
       case 'p':
         strncpy(nfos->server->port, optarg, PORT_MAX + 1);
-        printf_color(CLR_MSG, "Port     : %s\n", nfos->server->port);
+        printf("%s", nfos->server->port);
         break;
       case 'n':
         strncpy(nfos->server->nickname, optarg, NICK_NAME_MAX + 1);
-        printf_color(CLR_MSG, "Nick     : %s\n", nfos->server->nickname);
+        printf("%s", nfos->server->nickname);
         break;
       case 'h':
       case '?':
@@ -73,12 +65,12 @@ int main(int argc, char *argv[])
 
 void usage(char *prog_name)
 {
-  printf_color(CLR_OK, "%s v%s by %s\n", APP_NAME, VERSION, AUTHOR);
+  printf(AUTHOR);
 #ifdef DEBUG
-  print_color(CLR_ERROR, "COMPILED WITH DEBUG OUTPUT\n");
+  printf("COMPILED WITH DEBUG OUTPUT\n");
 #endif
-  printf_color(CLR_ERROR, "usage: %s -s server [-n nick] [-p port] [-h]\n", prog_name);
-  printf_color(CLR_MSG, " -s server\tserver to connect to\n"
+  printf("%s", prog_name);
+  printf(" -s server\tserver to connect to\n"
      " -n nick\tnickname (default: %s)\n"
      " -p port\tIRC port to connect to (default: 6667)\n"
      " -h\t\tshow this help message and exit\n",
@@ -189,9 +181,9 @@ void main_while(void)
 
 void quit(void)
 {
-  print_color(CLR_ERROR, "Exit!\n");
-  print_color(CLR_MSG, "\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\n");
+  printf("Exit!\n");
+  printf(BREAK); 
 
-  endwin(); // unload curses
+  //endwin(); // unload curses
   close(nfos->server->socket);
 }
