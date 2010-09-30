@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -ggdb -c -Wall -Werror -Wextra -fPIC
-LD = ld
+LD = gcc
 BOTLIB = ../../../bin/lib/libjackbot.so # vorher .a
 BOTOBJ = $(notdir $(BOTLIB:.so=.o))
 

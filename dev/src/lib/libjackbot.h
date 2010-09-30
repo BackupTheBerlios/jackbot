@@ -6,7 +6,7 @@
 #ifndef _LIBJACKBOT_H_
 #define _LIBJACKBOT_H_
 
-#define DEBUG 1
+//#define DEBUG 1
 
 #include <string.h>
 #include <stdio.h>
