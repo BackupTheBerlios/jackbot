@@ -42,9 +42,6 @@ inline void do_connect(void)
   struct hostent *hp;
   int pid;
 
-  printf("%s", nfos->server->port);
-  printf(BREAK);
-
   printf("  Get the server ip...");
 
   if((hp = gethostbyname(nfos->server->hostname)) == NULL)
@@ -55,7 +52,6 @@ inline void do_connect(void)
   {
     printf(" OK!\n");
     strncpy(nfos->server->ip, inet_ntoa(*(struct in_addr *)hp->h_addr), 16);
-    printf("%s", nfos->server->ip);
   }  
   
   printf(BREAK);

@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
   printf(
     "WELCOME! YOU'VE GOT THE JACKBOT\n"
     "  visit http://developer.berlios.de/projects/jackbot/\n"
-    "  for more informations...\n");
+    "  for more informations...\n\n");
  
   if(argc < 2)
   {
@@ -32,15 +32,15 @@ int main(int argc, char *argv[])
       case 's': 
         is_server = 1;
         strncpy(nfos->server->hostname, optarg, HOST_NAME_MAX + 1);
-        printf("%s", nfos->server->hostname);
+        printf("Server  : %s\n", nfos->server->hostname);
         break;
       case 'p':
         strncpy(nfos->server->port, optarg, PORT_MAX + 1);
-        printf("%s", nfos->server->port);
+        printf("Port    : %s\n", nfos->server->port);
         break;
       case 'n':
         strncpy(nfos->server->nickname, optarg, NICK_NAME_MAX + 1);
-        printf("%s", nfos->server->nickname);
+        printf("Nickname: %s\n", nfos->server->nickname);
         break;
       case 'h':
       case '?':
@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
     exit(0);
   }
 
-  do_connect(); // pre.c
+  do_connect();   // pre.c
   load_mods();    // pre.c
   main_while();   // here...
 
@@ -65,7 +65,6 @@ int main(int argc, char *argv[])
 
 void usage(char *prog_name)
 {
-  printf(AUTHOR);
 #ifdef DEBUG
   printf("COMPILED WITH DEBUG OUTPUT\n");
 #endif
@@ -183,6 +182,7 @@ void quit(void)
 {
   printf("Exit!\n");
   printf(BREAK); 
+  fflush(stdout);
 
   //endwin(); // unload curses
   close(nfos->server->socket);
