@@ -2,16 +2,12 @@ CC = gcc
 CFLAGS = -ggdb -c -Wall -Werror -Wextra
 OBJS = main.o pre.o io.o
 
-#$(OBJS): %.o: %.c
-#	$(CC) $(CFLAGS) -o $@ $<
-
 all: $(OBJS)
 
-main.o: main.c
+$(OBJS): %.o: %.c
 	$(CC) $(CFLAGS) -o $@ $<
 
-pre.o: pre.c
-	$(CC) $(CFLAGS) -o $@ $<
+#dependencies: ($OBJS:.o=.c)
+#  $(CC) -M $^ > $@
 
-io.o: io.c
-	$(CC) $(CFLAGS) -o $@ $<
+#include dependencies
