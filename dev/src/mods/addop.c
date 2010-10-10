@@ -7,6 +7,7 @@
 #include "../lib/libjackbot.h"
 
 void addop(struct _Nfos_ *nfos);
+void finish_opfile(void);
 
 struct _Mods_ _mod_info =
 {
@@ -18,11 +19,13 @@ struct _Mods_ _mod_info =
   ""
 };
 
-char *opfile = "mods/oplist.mod";
+FILE *fp_oplist;
+FILE *fp_tmplist;
+char *opfile_name  = "mods/oplist.mod";
+char *tmpfile_name = "mods/tmpfile.mod";
 
 void addop(struct _Nfos_ *nfos)
 {
-  static FILE *fp_list;
   int ctr = 0;
   char channel[CHAN_NAME_MAX + 1];
   char list_channel[CHAN_NAME_MAX + 1];
@@ -43,20 +46,18 @@ void addop(struct _Nfos_ *nfos)
 
   name_to_add = &nfos->sender->message[ctr + 7];
 
-  if(!fp_list)
-  {
-    if(!(fp_list = fopen(opfile, "r+"))) // open filefile doesn't exist yet
-      fopen(opfile, "w+"); // create file
-  }else
-    rewind(fp_list);
+  if(!(fp_oplist = fopen(opfile_name, "r+"))) // if file doesn't exist yet
+    fopen(opfile_name, "w+"); // create file
+
+  fp_tmplist = fopen(tmpfile_name, "w");
   
-  if(fp_list == NULL)
+  if(fp_oplist == NULL || fp_tmplist == NULL)
   {
-    printf("Error on opening %s\n", opfile);
+    printf("Error on opening a file\n");
     return;
   }
   
-  while(fgets(list_channel, CHAN_NAME_MAX + 1, fp_list))
+  while(fgets(list_channel, CHAN_NAME_MAX + 1, fp_oplist) && fputs(list_channel, fp_tmplist))
   {
     if(list_channel[0] == '#')
     {
@@ -68,7 +69,7 @@ void addop(struct _Nfos_ *nfos)
 
       if(!strcmp(channel, list_channel)) //I've found the searched channel
       {
-        while(fgets(nickname, NICK_NAME_MAX + 1, fp_list))
+        while(fgets(nickname, NICK_NAME_MAX + 1, fp_oplist) && fputs(nickname, fp_tmplist))
         {
           if(nickname[0] == '\n')
             break; // nickname not in the list - has to be added
@@ -79,21 +80,39 @@ void addop(struct _Nfos_ *nfos)
           if(!strcmp(name_to_add, nickname)) // nickname is already in the list...
           {
             irc_cmd("PRIVMSG %s :%s is already in OP list", channel, name_to_add);
+            fclose(fp_oplist);
+            fclose(fp_tmplist);
+            remove(tmpfile_name);
             return;
           }
         }
         // break destination
         // write name_to_add in file
-        fprintf(fp_list, "\b%s\n", name_to_add); 
-        fflush(fp_list);
+        fprintf(fp_tmplist, "%s\n", name_to_add); 
         irc_cmd("PRIVMSG %s :%s added to OPs of channel %s!", channel, name_to_add, channel);
+        finish_opfile();
         return;
       }
     }
   }
   //I didn't find the channel
   //channel and nickname have to be added
-  fprintf(fp_list, "%s\n%s", channel, name_to_add);
-  fflush(fp_list);
+  fprintf(fp_tmplist, "%s\n%s", channel, name_to_add);
   irc_cmd("PRIVMSG %s :%s was proudly added as first OP of channel %s!", channel, name_to_add, channel);
+  finish_opfile();
+}
+
+void finish_opfile(void)
+{
+  char line[CHAN_NAME_MAX + 1];
+
+  while(fgets(line, CHAN_NAME_MAX + 1, fp_oplist) && fputs(line, fp_tmplist));
+
+  if(!rename(tmpfile_name, opfile_name))
+    remove(tmpfile_name);
+  else
+    printf("Error on renaming %s", tmpfile_name);
+
+  fclose(fp_oplist);
+  fclose(fp_tmplist);
 }
