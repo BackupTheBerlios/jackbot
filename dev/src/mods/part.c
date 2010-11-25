@@ -2,7 +2,7 @@
 
 void part(struct _Nfos_ *nfos);
 
-struct _Mods_ _mod_info =
+struct _Mods_ _mod_info = // for description see pong.c
 {
   NULL,
   &part,
@@ -12,6 +12,11 @@ struct _Mods_ _mod_info =
   ""
 };
 
+/*
+ * This is the opposite of the invite mod. If someone sends a !part in the channel, the bot will get
+ *   :JacK_McRiDER PRIVMSG #foo :!part
+ * This mod reads the channel (#foo) and leaves it (with a little exit message)...
+ */
 void part(struct _Nfos_ *nfos)
 {
   int ctr = 0;
@@ -26,5 +31,5 @@ void part(struct _Nfos_ *nfos)
     ctr++;
   ctr++;
     
-  irc_cmd("PART %s :Tschuess, %s will mich loswerden!", channel, nfos->sender->nickname);
+  irc_cmd("PART %s :see ya'll, %s wants me to leave!", channel, nfos->sender->nickname);
 }
