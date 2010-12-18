@@ -25,7 +25,7 @@ void invite(struct _Nfos_ *nfos)
 
   for(msg_pos = 0; *(nfos->sender->message + msg_pos) != '#'; msg_pos++);
 
-  //irc_cmd("JOIN %s", nfos->sender->message + msg_pos); // senseless: a user is automatically added to a channel after invitation...
+  irc_cmd("JOIN %s", nfos->sender->message + msg_pos); 
 
   irc_cmd("PRIVMSG %s :%s, thx for invitation!", nfos->sender->message + msg_pos, nfos->sender->nickname);
 }

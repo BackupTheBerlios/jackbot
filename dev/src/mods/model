@@ -1,0 +1,21 @@
+#include "../lib/libjackbot.h"
+
+void main(struct _Nfos_ *nfos); 
+
+struct _Mods_ _mod_info = 
+{                         
+  NULL,                   
+  &main,                  
+  "Name", 
+  "CMD",                    
+  "SRVCMD",                
+  "REQNMB" 
+};
+
+/*
+ * description
+ */
+void main(struct _Nfos_ *nfos)
+{
+  
+}
