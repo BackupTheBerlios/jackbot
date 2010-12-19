@@ -40,7 +40,6 @@ inline void do_connect(void)
 {
   struct sockaddr_in sin;
   struct hostent *hp;
-  int pid;
 
   printf("  Get the server ip...");
 
@@ -101,19 +100,7 @@ inline void do_connect(void)
   //printf(buffer_);
 
   printf(" OK!\n");
-
   printf(BREAK);
-
-  printf("Connection ready!\nFrom now on could be used IRC to control!\nDaemonize...\n");
-
-pid = 0; // delete this line when using fork();
-/*
-  if((pid = fork()) > 0)
-  {
-    printf(pid);
-    exit(0);
-  }
-*/
 
   return;
 }
@@ -127,7 +114,7 @@ inline void load_mods(void)
   char mod_file[MOD_PATH_MAX + 1];
   void *mod = NULL;
   
-  printf("Loading mods...\n");
+  printf("  Loading mods...\n");
   if(!(dir_p = opendir(MOD_PATH)))
   {
     printf("ERROR: opendir();\n");
@@ -144,7 +131,7 @@ inline void load_mods(void)
         snprintf(mod_file, MOD_PATH_MAX, "%s/%s", MOD_PATH, dir->d_name);
 
         // load the mod
-        printf("%s", mod_file);
+        printf("    %s", mod_file);
         if(!(mod = dlopen(mod_file, (RTLD_LAZY | RTLD_LOCAL))))
         {
           printf("%s", dlerror());

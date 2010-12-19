@@ -9,7 +9,7 @@ void main_while(void);
 
 int main(int argc, char *argv[])
 {
-  int arg, is_server = 0;
+  int arg, is_server = 0, is_daemon = 0, pid;
 
   init();
 
@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
     exit(0);
   }
 
-  while((arg = getopt(argc, argv, "s:n:p:h?")) != -1)
+  while((arg = getopt(argc, argv, "s:n:p:dh?")) != -1)
   {
     switch(arg)
     {
@@ -41,6 +41,10 @@ int main(int argc, char *argv[])
       case 'n':
         strncpy(nfos->server->nickname, optarg, NICK_NAME_MAX + 1);
         printf("Nickname: %s\n", nfos->server->nickname);
+        break;
+      case 'd':
+        is_daemon = 1;
+        printf("Mode    : Daemon\n");
         break;
       case 'h':
       case '?':
@@ -58,7 +62,23 @@ int main(int argc, char *argv[])
 
   do_connect();   // pre.c
   load_mods();    // pre.c
-  main_while();   // here...
+
+  // daemonize...
+  if(is_daemon)
+  {
+    printf("Daemonize...\n");
+    
+    if((pid = fork()) > 0)
+    {
+      printf("PID: %d\n", pid);
+      exit(0);
+    }else if( pid < 0)
+    {
+      printf("Daemonazing failed... running normal!\n");
+    }
+  }
+
+  main_while();
 
   return 0;
 }
@@ -72,8 +92,9 @@ void usage(char *prog_name)
   printf(" -s server\tserver to connect to\n"
      " -n nick\tnickname (default: %s)\n"
      " -p port\tIRC port to connect to (default: 6667)\n"
+     " -d\t\trun %s as a daemon\n"
      " -h\t\tshow this help message and exit\n",
-     APP_NAME);
+     APP_NAME, APP_NAME);
 
   return;
 }
