@@ -112,6 +112,10 @@ void main_while(void)
 
   while(1)
   {
+    // insert some select() stuff here for timeout - reconnect after x seconds timeout
+    // recvblubbbb = select(blblblblbl);
+    // if(recvblubbb) { got data: do recv() }
+    // else { timeout: reconnect }
     bytes = recv(nfos->server->socket, buffer, 1024, 0);
 #ifdef DEBUG    
     printf("buff: %.*s\n", bytes, buffer);
