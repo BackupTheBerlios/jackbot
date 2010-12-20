@@ -101,6 +101,8 @@ void usage(char *prog_name)
 
 void main_while(void)
 {
+  fd_set fds;
+  struct timeval timeout;
   int bytes;
   int pos;
   int msg_pos = 0;
@@ -112,10 +114,17 @@ void main_while(void)
 
   while(1)
   {
-    // insert some select() stuff here for timeout - reconnect after x seconds timeout
-    // recvblubbbb = select(blblblblbl);
-    // if(recvblubbb) { got data: do recv() }
-    // else { timeout: reconnect }
+    timeout.tv_sec = 300;
+    timeout.tv_usec = 0;
+    FD_ZERO(&fds);
+    FD_SET(nfos->server->socket, &fds);
+    select(nfos->server->socket + 1, &fds, NULL, NULL, &timeout);
+    if (FD_ISSET(nfos->server->socket, &fds) == 0)
+    {
+      printf("Connection timed out. Reconnect...\n");
+      do_connect();
+    }
+
     bytes = recv(nfos->server->socket, buffer, 1024, 0);
 #ifdef DEBUG    
     printf("buff: %.*s\n", bytes, buffer);

@@ -55,7 +55,7 @@ void op_by_list(struct _Nfos_ *nfos)
   
   // GETTING THE CHANNEL NAME FROM THE JOIN MESSAGE
   for(ctr = 0; nfos->sender->message[ctr] != '#'; ctr++);
-  for(ctr2 = 0; nfos->sender->message[ctr] != ' ' && ctr2 <= CHAN_NAME_MAX; ctr2++)
+  for(ctr2 = 0; nfos->sender->message[ctr + ctr2] != ' ' && ctr2 <= CHAN_NAME_MAX; ctr2++)
     channel[ctr2] = nfos->sender->message[ctr + ctr2];
   channel[ctr2] = '\0';
   
