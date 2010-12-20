@@ -44,63 +44,67 @@ void delop(struct _Nfos_ *nfos)
     ctr++;
   ctr++;
 
-  name_to_del = &nfos->sender->message[ctr + 7];
+  if(isgraph(nfos->sender->message[ctr + 7]))
+  {
+    name_to_del = &nfos->sender->message[ctr + 7];
 
-  if(!(fp_oplist = fopen(opfile_name, "r+"))) // if file doesn't exist yet
-  {
-    irc_cmd("PRIVMSG %s :%s is not in the OP list of %s!", channel, name_to_del, channel);
-    return;
-  }
-  
-  fp_tmplist = fopen(tmpfile_name, "w");
-  
-  if(fp_oplist == NULL || fp_tmplist == NULL)
-  {
-    printf("Error on opening a file\n");
-    return;
-  }
-  
-  while(fgets(list_channel, CHAN_NAME_MAX + 1, fp_oplist) && fputs(list_channel, fp_tmplist))
-  {
-    if(list_channel[0] == '#')
+    if(!(fp_oplist = fopen(opfile_name, "r+"))) // if file doesn't exist yet
     {
-      
-//FIXXME - boeser hack! evtl. 
-      if(list_channel[strlen(list_channel) - 1] == '\n')
-        list_channel[strlen(list_channel) - 1] = '\0';
-//FIXXME
+      irc_cmd("PRIVMSG %s :%s is not in the OP list of %s!", channel, name_to_del, channel);
+      return;
+    }
 
-      if(!strcmp(channel, list_channel)) //I've found the searched channel
+    fp_tmplist = fopen(tmpfile_name, "w");
+
+    if(fp_oplist == NULL || fp_tmplist == NULL)
+    {
+      printf("Error on opening a file\n");
+      return;
+    }
+
+    while(fgets(list_channel, CHAN_NAME_MAX + 1, fp_oplist) && fputs(list_channel, fp_tmplist))
+    {
+      if(list_channel[0] == '#')
       {
-        while(fgets(nickname, NICK_NAME_MAX + 1, fp_oplist))
-        {
-          if(nickname[0] == '\n')
-          {
-            // nickname not in the list
-            fputs(nickname, fp_tmplist);
-            irc_cmd("PRIVMSG %s :%s is not in the OP list of %s!", channel, name_to_del, channel);
-            finish_opfile();
-            return;
-          }
-          
-          if(nickname[strlen(nickname) - 1] == '\n') // the 'if' is because at the end of the file there is no '\n'
-            nickname[strlen(nickname) - 1] = '\0';
 
-          if(strcmp(name_to_del, nickname)) // cpy nick to file if the nickname is *not* name_do_del
-            fprintf(fp_tmplist, "%s\n", nickname);
-          else
+        //FIXXME - boeser hack! evtl. 
+        if(list_channel[strlen(list_channel) - 1] == '\n')
+          list_channel[strlen(list_channel) - 1] = '\0';
+        //FIXXME
+
+        if(!strcmp(channel, list_channel)) //I've found the searched channel
+        {
+          while(fgets(nickname, NICK_NAME_MAX + 1, fp_oplist))
           {
-            irc_cmd("PRIVMSG %s :Deleted %s from the OP list of %s", channel, name_to_del, channel); // 've find nickname - don't cpy to file -> deleted
-            finish_opfile();
-            return;
+            if(nickname[0] == '\n')
+            {
+              // nickname not in the list
+              fputs(nickname, fp_tmplist);
+              irc_cmd("PRIVMSG %s :%s is not in the OP list of %s!", channel, name_to_del, channel);
+              finish_opfile();
+              return;
+            }
+
+            if(nickname[strlen(nickname) - 1] == '\n') // the 'if' is because at the end of the file there is no '\n'
+              nickname[strlen(nickname) - 1] = '\0';
+
+            if(strcmp(name_to_del, nickname)) // cpy nick to file if the nickname is *not* name_do_del
+              fprintf(fp_tmplist, "%s\n", nickname);
+            else
+            {
+              irc_cmd("PRIVMSG %s :Deleted %s from the OP list of %s", channel, name_to_del, channel); // 've find nickname - don't cpy to file -> deleted
+              finish_opfile();
+              return;
+            }
           }
         }
       }
     }
-  }
-  // nickname not in the list
-  irc_cmd("PRIVMSG %s :%s is not in the OP list of this channel!", channel, name_to_del);
-  finish_opfile();
+    // nickname not in the list
+    irc_cmd("PRIVMSG %s :%s is not in the OP list of this channel!", channel, name_to_del);
+    finish_opfile();
+  }else
+    irc_cmd("PRIVMSG %s :You did not enter a nickname!", channel);
 }
 
 void finish_opfile(void)

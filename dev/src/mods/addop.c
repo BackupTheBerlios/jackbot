@@ -44,62 +44,66 @@ void addop(struct _Nfos_ *nfos)
     ctr++;
   ctr++;
 
-  name_to_add = &nfos->sender->message[ctr + 7];
-
-  if(!(fp_oplist = fopen(opfile_name, "r+"))) // if file doesn't exist yet
-    fopen(opfile_name, "w+"); // create file
-
-  fp_tmplist = fopen(tmpfile_name, "w");
-  
-  if(fp_oplist == NULL || fp_tmplist == NULL)
+  if(isgraph(nfos->sender->message[ctr + 7]))
   {
-    printf("Error on opening a file\n");
-    return;
-  }
-  
-  while(fgets(list_channel, CHAN_NAME_MAX + 1, fp_oplist) && fputs(list_channel, fp_tmplist))
-  {
-    if(list_channel[0] == '#')
+    name_to_add = &nfos->sender->message[ctr + 7];
+
+    if(!(fp_oplist = fopen(opfile_name, "r+"))) // if file doesn't exist yet
+      fopen(opfile_name, "w+"); // create file
+
+    fp_tmplist = fopen(tmpfile_name, "w");
+
+    if(fp_oplist == NULL || fp_tmplist == NULL)
     {
-      
-//FIXXME - boeser hack! evtl. 
-      if(list_channel[strlen(list_channel) - 1] == '\n')
-        list_channel[strlen(list_channel) - 1] = '\0';
-//FIXXME
+      printf("Error on opening a file\n");
+      return;
+    }
 
-      if(!strcmp(channel, list_channel)) //I've found the searched channel
+    while(fgets(list_channel, CHAN_NAME_MAX + 1, fp_oplist) && fputs(list_channel, fp_tmplist))
+    {
+      if(list_channel[0] == '#')
       {
-        while(fgets(nickname, NICK_NAME_MAX + 1, fp_oplist) && fputs(nickname, fp_tmplist))
-        {
-          if(nickname[0] == '\n')
-            break; // nickname not in the list - has to be added
-          
-          if(nickname[strlen(nickname) - 1] == '\n')
-            nickname[strlen(nickname) - 1] = '\0';
 
-          if(!strcmp(name_to_add, nickname)) // nickname is already in the list...
+        //FIXXME - boeser hack! evtl. 
+        if(list_channel[strlen(list_channel) - 1] == '\n')
+          list_channel[strlen(list_channel) - 1] = '\0';
+        //FIXXME
+
+        if(!strcmp(channel, list_channel)) //I've found the searched channel
+        {
+          while(fgets(nickname, NICK_NAME_MAX + 1, fp_oplist) && fputs(nickname, fp_tmplist))
           {
-            irc_cmd("PRIVMSG %s :%s is already in OP list", channel, name_to_add);
-            fclose(fp_oplist);
-            fclose(fp_tmplist);
-            remove(tmpfile_name);
-            return;
+            if(nickname[0] == '\n')
+              break; // nickname not in the list - has to be added
+
+            if(nickname[strlen(nickname) - 1] == '\n')
+              nickname[strlen(nickname) - 1] = '\0';
+
+            if(!strcmp(name_to_add, nickname)) // nickname is already in the list...
+            {
+              irc_cmd("PRIVMSG %s :%s is already in OP list", channel, name_to_add);
+              fclose(fp_oplist);
+              fclose(fp_tmplist);
+              remove(tmpfile_name);
+              return;
+            }
           }
+          // break destination
+          // write name_to_add in file
+          fprintf(fp_tmplist, "%s\n", name_to_add); 
+          irc_cmd("PRIVMSG %s :%s added to OPs of channel %s!", channel, name_to_add, channel);
+          finish_opfile();
+          return;
         }
-        // break destination
-        // write name_to_add in file
-        fprintf(fp_tmplist, "%s\n", name_to_add); 
-        irc_cmd("PRIVMSG %s :%s added to OPs of channel %s!", channel, name_to_add, channel);
-        finish_opfile();
-        return;
       }
     }
-  }
-  //I didn't find the channel
-  //channel and nickname have to be added
-  fprintf(fp_tmplist, "%s\n%s", channel, name_to_add);
-  irc_cmd("PRIVMSG %s :%s was proudly added as first OP of channel %s!", channel, name_to_add, channel);
-  finish_opfile();
+    //I didn't find the channel
+    //channel and nickname have to be added
+    fprintf(fp_tmplist, "%s\n%s", channel, name_to_add);
+    irc_cmd("PRIVMSG %s :%s was proudly added as first OP of channel %s!", channel, name_to_add, channel);
+    finish_opfile();
+  }else
+    irc_cmd("PRIVMSG %s :You did not enter a nickname!", channel);
 }
 
 void finish_opfile(void)
