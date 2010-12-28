@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -ggdb -c -Wall -Werror -Wextra
+CFLAGS = -ggdb -c -Wall -Werror -Wextra -DDEBUG=$(DEBUG)
 OBJS = main.o pre.o io.o
 
 all: $(OBJS)

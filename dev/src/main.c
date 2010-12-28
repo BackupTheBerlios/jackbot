@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
 
 void usage(char *prog_name)
 {
-#ifdef DEBUG
+#if (DEBUG)
   printf("COMPILED WITH DEBUG OUTPUT\n");
 #endif
   printf("%s", prog_name);
@@ -126,7 +126,7 @@ void main_while(void)
     }
 
     bytes = recv(nfos->server->socket, buffer, 1024, 0);
-#ifdef DEBUG    
+#if (DEBUG)
     printf("buff: %.*s\n", bytes, buffer);
 #endif // DEBUG
     
@@ -136,7 +136,7 @@ void main_while(void)
       {
 	msg[msg_pos] = '\0';
         parse_msg(msg);
-#ifdef DEBUG
+#if (DEBUG)
 	printf("msg:  %s\n", msg);
         printf("PRIVMSG #bot :\n"
           "nfos\n"
@@ -191,7 +191,7 @@ void main_while(void)
         do
         {
 
-#ifdef DEBUG
+#if (DEBUG)
 	  printf("MOD: %s\n", nfos->mods->name);
 #endif // DEBUG
 
