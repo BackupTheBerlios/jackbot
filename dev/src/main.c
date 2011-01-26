@@ -127,81 +127,81 @@ void main_while(void)
 
     bytes = recv(nfos->server->socket, buffer, 1024, 0);
 #if (DEBUG)
-    printf("buff: %.*s\n", bytes, buffer);
+    fprintf(stderr, "buff: %.*s\n", bytes, buffer);
 #endif // DEBUG
     
     for(pos = 0; pos < bytes;)
     {
       if(buffer[pos] == '\r' && buffer[pos + 1] == '\n')
       {
-	msg[msg_pos] = '\0';
+        msg[msg_pos] = '\0';
         parse_msg(msg);
 #if (DEBUG)
-	printf("msg:  %s\n", msg);
-        printf("PRIVMSG #bot :\n"
-          "nfos\n"
-          "  server\n"
-          "    int  socket       = %d;\n"
-          "    char hostname[]   = \"%s\";\n"
-          "    char ip[]         = \"%s\";\n"
-          "    char port[]       = \"%s\";\n"
-          "  sender\n"
-          "    char nickname[]   = \"%s\";\n"
-          "    char user[]       = \"%s\";\n"
-          "    char host[]       = \"%s\";\n"
-          "    char servername[] = \"%s\";\n"
-          "    char command[]    = \"%s\";\n"
-          "    char request_nr[] = \"%s\";\n"
-          "    char message[]    = \"%s\";\n",
-          nfos->server->socket,
-	  nfos->server->hostname,
-	  nfos->server->ip,
-	  nfos->server->port,
-          (nfos->sender->nickname) ? nfos->sender->nickname : "",
-	  (nfos->sender->user) ? nfos->sender->user : "",
-	  (nfos->sender->host) ? nfos->sender->host : "",
-	  (nfos->sender->servername) ? nfos->sender->servername : "",
-	  (nfos->sender->command) ? nfos->sender->command : "",
-	  (nfos->sender->request_nr) ? nfos->sender->request_nr : "",
-	  nfos->sender->message);
+        fprintf(stderr, "msg:  %s\n", msg);
+        fprintf(stderr, "PRIVMSG #bot :\n"
+            "nfos\n"
+            "  server\n"
+            "    int  socket       = %d;\n"
+            "    char hostname[]   = \"%s\";\n"
+            "    char ip[]         = \"%s\";\n"
+            "    char port[]       = \"%s\";\n"
+            "  sender\n"
+            "    char nickname[]   = \"%s\";\n"
+            "    char user[]       = \"%s\";\n"
+            "    char host[]       = \"%s\";\n"
+            "    char servername[] = \"%s\";\n"
+            "    char command[]    = \"%s\";\n"
+            "    char request_nr[] = \"%s\";\n"
+            "    char message[]    = \"%s\";\n",
+            nfos->server->socket,
+            nfos->server->hostname,
+            nfos->server->ip,
+            nfos->server->port,
+            (nfos->sender->nickname) ? nfos->sender->nickname : "",
+            (nfos->sender->user) ? nfos->sender->user : "",
+            (nfos->sender->host) ? nfos->sender->host : "",
+            (nfos->sender->servername) ? nfos->sender->servername : "",
+            (nfos->sender->command) ? nfos->sender->command : "",
+            (nfos->sender->request_nr) ? nfos->sender->request_nr : "",
+            nfos->sender->message);
 
-	fflush(stdout);
-	  
+        fflush(stderr);
+
         //send_irc(buffer);
 #endif // DEBUG
-	
+
         nfos->mods = nfos->first_mod;
         memset(cmd, 0, MOD_CMD_MAX + 1);
 
-	ctr = 0;
-	while(nfos->sender->message[ctr] != ':')
+        ctr = 0;
+        while(nfos->sender->message[ctr] != ':')
           ctr++;
         ctr++; // point after the colon
 
         if((!strcmp(nfos->sender->command, "PRIVMSG") || !strcmp(nfos->sender->command, "NOTICE")) && ctr > 1 && (nfos->sender->message[ctr] == CMD_PREFIX && isgraph(nfos->sender->message[ctr + 1])))
         {
-	  ctr++; // point after the CMD_PREFIX
+          ctr++; // point after the CMD_PREFIX
           for(cmd_len = 0; nfos->sender->message[ctr + cmd_len] != ' ' && cmd_len < MOD_CMD_MAX; cmd_len++)
             cmd[cmd_len] = nfos->sender->message[ctr + cmd_len];
-	  
-	  cmd[cmd_len] = '\0';
+
+          cmd[cmd_len] = '\0';
         }else
-	  strcpy(cmd, "0");
+          strcpy(cmd, "0");
 
         do
         {
 
 #if (DEBUG)
-	  printf("MOD: %s\n", nfos->mods->name);
+          fprintf(stderr, "MOD: %s\n", nfos->mods->name);
 #endif // DEBUG
 
           if(!strcmp(nfos->sender->command, nfos->mods->server_cmd) || !strcmp(cmd, nfos->mods->mod_cmd))
             (*nfos->mods->mod_main)(nfos);
           nfos->mods = nfos->mods->next;
         }while(nfos->mods);
-      
+
         msg_pos = 0; // new line
-	pos += 2; // point behind <crlf>
+        pos += 2; // point behind <crlf>
       }else
       {
         msg[msg_pos++] = buffer[pos++];

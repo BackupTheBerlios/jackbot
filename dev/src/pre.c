@@ -36,7 +36,7 @@ inline void init(void)
   return;
 }
 
-inline void do_connect(void)
+void do_connect(void)
 {
   struct sockaddr_in sin;
   struct hostent *hp;

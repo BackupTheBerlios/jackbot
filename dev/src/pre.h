@@ -24,7 +24,7 @@
 #define BREAK "---------------------------------------------------\n"
 
 inline void init(void);
-inline void do_connect(void);
+void do_connect(void);
 inline void load_mods(void);
 
 #endif // _PRE_H_
