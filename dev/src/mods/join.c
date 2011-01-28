@@ -21,9 +21,18 @@ struct _Mods_ _mod_info =
  */
 void join(struct _Nfos_ *nfos)
 {
-  irc_cmd("JOIN %s", &nfos->sender->message[strlen(nfos->mods->mod_cmd) + 1]);
+  int pos;
+
+  // find '#' as channelname indicator
+  for(pos = 0; nfos->sender->message[pos] != '#'; pos++)
+  {
+    if(nfos->sender->message[pos] == '\0')
+      return;
+  }
+
+  irc_cmd("JOIN %s", &nfos->sender->message[pos]);
 
 #if (DEBUG)
-  fprintf(stderr, "  sent: JOIN %s", &nfos->sender->message[strlen(nfos->mods->mod_cmd) + 1]);
+  fprintf(stderr, "  sent: JOIN %s\n", &nfos->sender->message[pos]);
 #endif
 }
