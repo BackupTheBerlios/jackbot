@@ -18,6 +18,10 @@ int main(int argc, char *argv[])
     "WELCOME! YOU'VE GOT THE JACKBOT\n"
     "  visit http://developer.berlios.de/projects/jackbot/\n"
     "  for more informations...\n\n");
+
+#if (DEBUG)
+  printf("Compiled with debug output!");
+#endif
  
   if(argc < 2)
   {
