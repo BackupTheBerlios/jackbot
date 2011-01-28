@@ -119,18 +119,22 @@ void main_while(void)
     FD_ZERO(&fds);
     FD_SET(nfos->server->socket, &fds);
     select(nfos->server->socket + 1, &fds, NULL, NULL, &timeout);
+
     if (FD_ISSET(nfos->server->socket, &fds) == 0)
     {
       printf("Connection timed out. Reconnect...\n");
       do_connect();
     }
 
-    bytes = recv(nfos->server->socket, buffer, 1024, 0);
+    pos = 0;
+    if((bytes = recv(nfos->server->socket, buffer, 1024, 0)) == 0)
+      continue;
+
 #if (DEBUG)
     fprintf(stderr, "buff: %.*s\n", bytes, buffer);
 #endif // DEBUG
     
-    for(pos = 0; pos < bytes;)
+    while(pos < bytes)
     {
       if(buffer[pos] == '\r' && buffer[pos + 1] == '\n')
       {
