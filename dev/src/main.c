@@ -173,18 +173,21 @@ void main_while(void)
         nfos->mods = nfos->first_mod;
         memset(cmd, 0, MOD_CMD_MAX + 1);
 
-        ctr = 0;
-        while(nfos->sender->message[ctr] != ':')
-          ctr++;
-        ctr++; // point after the colon
-
-        if((!strcmp(nfos->sender->command, "PRIVMSG") || !strcmp(nfos->sender->command, "NOTICE")) && ctr > 1 && (nfos->sender->message[ctr] == CMD_PREFIX && isgraph(nfos->sender->message[ctr + 1])))
+        if((!strcmp(nfos->sender->command, "PRIVMSG") || !strcmp(nfos->sender->command, "NOTICE")))
         {
-          ctr++; // point after the CMD_PREFIX
-          for(cmd_len = 0; nfos->sender->message[ctr + cmd_len] != ' ' && cmd_len < MOD_CMD_MAX; cmd_len++)
-            cmd[cmd_len] = nfos->sender->message[ctr + cmd_len];
+          ctr = 0;
+          while(nfos->sender->message[ctr] != ':')
+            ctr++;
+          ctr++; // point after the colon
 
-          cmd[cmd_len] = '\0';
+          if(ctr > 1 && (nfos->sender->message[ctr] == CMD_PREFIX && isgraph(nfos->sender->message[ctr + 1])))
+          {
+            ctr++; // point after the CMD_PREFIX
+            for(cmd_len = 0; nfos->sender->message[ctr + cmd_len] != ' ' && cmd_len < MOD_CMD_MAX; cmd_len++)
+              cmd[cmd_len] = nfos->sender->message[ctr + cmd_len];
+            cmd[cmd_len] = '\0';
+          }else
+            strcpy(cmd, "0");
         }else
           strcpy(cmd, "0");
 
