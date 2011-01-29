@@ -27,5 +27,5 @@ void ping(struct _Nfos_ *nfos)
 
   irc_cmd("PONG %s", &nfos->sender->message[pos]);
 
-  debug_out("  pos = %d", pos);
+  debug_out("  pos = %d\n", pos);
 }
