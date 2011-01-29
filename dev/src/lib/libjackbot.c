@@ -29,7 +29,7 @@ void send_irc(char *msg)
 
 	send(nfos->server->socket, full_msg, strlen(full_msg), 0);
 	
-	debug_out("sent: %s\n", full_msg);
+	debug_out("sent: %s", full_msg);
 
       }
     }
@@ -38,7 +38,7 @@ void send_irc(char *msg)
     snprintf(full_msg, MSG_MAX, "%.*s\r\n", MSG_MAX - 2, msg);
     send(nfos->server->socket, full_msg, strlen(full_msg), 0);
     
-	debug_out("sent: %s\n", full_msg);
+	debug_out("sent: %s", full_msg);
 
   }
 
