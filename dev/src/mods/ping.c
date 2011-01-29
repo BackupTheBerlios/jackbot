@@ -23,9 +23,8 @@ struct _Mods_ _mod_info = // This is the mod struct given in libjackbot.h,
  */
 void ping(struct _Nfos_ *nfos)
 {
-  int pos;
+  int pos = (nfos->sender->message[0] == ':') ? 1 : 0;
 
-  for(pos = 0; nfos->sender->message[pos] != ':' || nfos->sender->message[pos] != '\0'; pos++);
   irc_cmd("PONG %s", &nfos->sender->message[pos]);
 
   debug_out("  pos = %d", pos);
