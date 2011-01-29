@@ -26,6 +26,7 @@ void ping(struct _Nfos_ *nfos)
   int pos;
 
   for(pos = 0; nfos->sender->message[pos] != ':' || nfos->sender->message[pos] != '\0'; pos++);
-
   irc_cmd("PONG %s", &nfos->sender->message[pos]);
+
+  debug_out("  pos = %d", pos);
 }
