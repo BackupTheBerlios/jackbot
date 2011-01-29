@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
     "  visit http://developer.berlios.de/projects/jackbot/\n"
     "  for more informations...\n\n");
 
-  debug_out("Compiled with debug output!");
+  debug_out("Compiled with debug output!\n");
  
   if(argc < 2)
   {
