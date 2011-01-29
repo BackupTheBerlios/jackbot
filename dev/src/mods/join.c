@@ -32,7 +32,5 @@ void join(struct _Nfos_ *nfos)
 
   irc_cmd("JOIN %s", &nfos->sender->message[pos]);
 
-#if (DEBUG)
-  fprintf(stderr, "  sent: JOIN %s\n", &nfos->sender->message[pos]);
-#endif
+  debug_out("  sent: JOIN %s\n", &nfos->sender->message[pos]);
 }

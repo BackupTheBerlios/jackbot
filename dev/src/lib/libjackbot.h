@@ -6,8 +6,6 @@
 #ifndef _LIBJACKBOT_H_
 #define _LIBJACKBOT_H_
 
-//#define DEBUG 1
-
 #include <string.h>
 #include <stdio.h>
 #include <sys/types.h>
@@ -38,6 +36,12 @@
 // define macros
 #define irc_cmd(...) snprintf(buffer_, MSG_MAX, __VA_ARGS__);\
         send_irc(buffer_);
+
+#if (DEBUG)
+#define debug_out(...) fprintf(stderr, __VA_ARGS__);
+#else
+#define debug_out(...) //
+#endif
 
 // define structs
 struct _Server_;

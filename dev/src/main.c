@@ -13,15 +13,12 @@ int main(int argc, char *argv[])
 
   init();
 
-  // welcome message - using ncurses, ncurses should be annihilated from the whole project...
   printf(
     "WELCOME! YOU'VE GOT THE JACKBOT\n"
     "  visit http://developer.berlios.de/projects/jackbot/\n"
     "  for more informations...\n\n");
 
-#if (DEBUG)
-  printf("Compiled with debug output!");
-#endif
+  debug_out("Compiled with debug output!");
  
   if(argc < 2)
   {
@@ -89,9 +86,6 @@ int main(int argc, char *argv[])
 
 void usage(char *prog_name)
 {
-#if (DEBUG)
-  printf("COMPILED WITH DEBUG OUTPUT\n");
-#endif
   printf("%s", prog_name);
   printf(" -s server\tserver to connect to\n"
      " -n nick\tnickname (default: %s)\n"
@@ -134,9 +128,7 @@ void main_while(void)
     if((bytes = recv(nfos->server->socket, buffer, 1024, 0)) == 0)
       continue;
 
-#if (DEBUG)
-    fprintf(stderr, "buff: %.*s\n", bytes, buffer);
-#endif // DEBUG
+    debug_out("\nbuff: %.*s", bytes, buffer);
     
     while(pos < bytes)
     {
@@ -144,9 +136,9 @@ void main_while(void)
       {
         msg[msg_pos] = '\0';
         parse_msg(msg);
-#if (DEBUG)
-        fprintf(stderr, "msg:  %s\n", msg);
-        fprintf(stderr, "PRIVMSG #bot :\n"
+        
+        debug_out("msg:  %s\n", msg);
+        debug_out("PRIVMSG #bot :\n"
             "nfos\n"
             "  server\n"
             "    int  socket       = %d;\n"
@@ -173,11 +165,6 @@ void main_while(void)
             (nfos->sender->request_nr) ? nfos->sender->request_nr : "",
             nfos->sender->message);
 
-        fflush(stderr);
-
-        //send_irc(buffer);
-#endif // DEBUG
-
         nfos->mods = nfos->first_mod;
         memset(cmd, 0, MOD_CMD_MAX + 1);
 
@@ -202,9 +189,7 @@ void main_while(void)
         do
         {
 
-#if (DEBUG)
-          fprintf(stderr, "MOD: %s\n", nfos->mods->name);
-#endif // DEBUG
+          debug_out("MOD: %s\n", nfos->mods->name);
 
           if(!strcmp(nfos->sender->command, nfos->mods->server_cmd) || !strcmp(cmd, nfos->mods->mod_cmd))
             (*nfos->mods->mod_main)(nfos);
@@ -228,7 +213,5 @@ void quit(void)
   printf("Exit!\n");
   printf(BREAK); 
   fflush(stdout);
-
-  //endwin(); // unload curses
   close(nfos->server->socket);
 }

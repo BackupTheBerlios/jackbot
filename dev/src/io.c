@@ -7,21 +7,6 @@
 
 void parse_prefix(char *prefix);
 
-/*void print_color(short int pair, const char *string)
-{
-  pair++;
-  static short int prev_pair = 0;
-  
-  if(pair != prev_pair)
-    color_set(pair, NULL);
-  printw("%s", string);
-  refresh();
-
-  prev_pair = pair;
-  printf("%s", string);
-  fflush(stdout);
-}*/
-
 void parse_msg(char *msg)
 {
   // see RFC 1459, 2.3
