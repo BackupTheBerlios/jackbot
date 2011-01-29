@@ -57,6 +57,9 @@ void listops(struct _Nfos_ *nfos)
 
 	        irc_cmd("NOTICE %s :%s", nfos->sender->nickname, nickname);
 	      }
+      }else // no list yet | issue: whats about empty channel lists? perhaps deleting them in delop.c
+      {
+        irc_cmd("NOTICE %s :No OPs for channel %s!", nfos->sender->nickname, channel);
       }
     }
   }
