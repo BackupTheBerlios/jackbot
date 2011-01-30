@@ -109,6 +109,9 @@ void main_while(void)
   char msg[MSG_MAX + 1];
   char buffer[1024];
   char cmd[MOD_CMD_MAX + 1];
+#if (DEBUG)
+  time_t eventtime;
+#endif
 
   while(1)
   {
@@ -128,7 +131,9 @@ void main_while(void)
     if((bytes = recv(nfos->server->socket, buffer, 1024, 0)) == 0)
       continue;
 
-    debug_out("\nbuff: %.*s", bytes, buffer);
+    time(&eventtime);
+    debug_out("\n%s", ctime(&eventtime));
+    debug_out("buff: %.*s", bytes, buffer);
     
     while(pos < bytes)
     {
