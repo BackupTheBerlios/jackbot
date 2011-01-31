@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -fPIC -ggdb
+CFLAGS = -fPIC -ggdb -DDEBUG=$(DEBUG)
 MODS_SRCS=$(wildcard *.c)
 MODS_OBJS=$(MODS_SRCS:%.c=%.o)
 MODS_TRGT=$(MODS_OBJS:%.o=../../../bin/mods/%.so)

@@ -196,7 +196,7 @@ void main_while(void)
 
           debug_out("MOD: %s\n", nfos->mods->name);
 
-          if(!strcmp(nfos->sender->command, nfos->mods->server_cmd) || !strcmp(cmd, nfos->mods->mod_cmd))
+          if(!strcmp(nfos->sender->command, nfos->mods->server_cmd) || !strcmp(cmd, nfos->mods->mod_cmd) || !strcmp("EVR", nfos->mods->server_cmd))
             (*nfos->mods->mod_main)(nfos);
           nfos->mods = nfos->mods->next;
         }while(nfos->mods);

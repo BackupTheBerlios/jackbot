@@ -18,17 +18,7 @@ inline void init(void)
   nfos->first_mod = NULL;
 
   atexit(quit);
-  //initscr();
-  //start_color();
-  //clear();
-
-  //init_pair(CLR_ERROR, COLOR_RED, COLOR_BLACK);
-  //init_pair(CLR_MSG, COLOR_WHITE, COLOR_BLACK);
-  //init_pair(CLR_OK, COLOR_GREEN, COLOR_BLACK);
-  //init_pair(CLR_HEAD, COLOR_BLUE, COLOR_BLACK);
-
-  //scrollok(stdscr, true);
-
+  
   memset(nfos->server->hostname, 0, HOST_NAME_MAX + 1);
   strncpy(nfos->server->nickname, APP_NAME, NICK_NAME_MAX);
   strncpy(nfos->server->port, "6667", PORT_MAX);

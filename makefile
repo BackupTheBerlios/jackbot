@@ -12,6 +12,7 @@ objs :
 
 mods :
 	if ! test -d bin/mods; then mkdir bin/mods; fi
+	if ! test -d bin/mods/logs; then mkdir bin/mods/logs; fi
 	$(MAKE) DEBUG=$(DEBUG) -C dev/src/mods/
 
 jackbot : 

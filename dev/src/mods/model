@@ -1,11 +1,11 @@
 #include "../lib/libjackbot.h"
 
-void main(struct _Nfos_ *nfos); 
+void modmain(struct _Nfos_ *nfos); 
 
 struct _Mods_ _mod_info = 
 {                         
   NULL,                   
-  &main,                  
+  &modmain,                  
   "Name", 
   "CMD",                    
   "SRVCMD",                
@@ -15,7 +15,7 @@ struct _Mods_ _mod_info =
 /*
  * description
  */
-void main(struct _Nfos_ *nfos)
+void modmain(struct _Nfos_ *nfos)
 {
   
 }

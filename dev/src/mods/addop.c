@@ -5,6 +5,7 @@
 */
 
 #include "../lib/libjackbot.h"
+#include <unistd.h>
 
 void addop(struct _Nfos_ *nfos);
 void finish_opfile(void);
@@ -48,8 +49,8 @@ void addop(struct _Nfos_ *nfos)
   {
     name_to_add = &nfos->sender->message[ctr + 7];
 
-    if(!(fp_oplist = fopen(opfile_name, "r+"))) // if file doesn't exist yet
-      fopen(opfile_name, "w+"); // create file
+    if(! access(opfile_name, F_OK) ) // if file doesn't exist yet
+      fp_oplist = fopen(opfile_name, "w+"); // create file
 
     fp_tmplist = fopen(tmpfile_name, "w");
 
