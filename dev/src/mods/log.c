@@ -32,7 +32,7 @@ void log_irc(struct _Nfos_ *nfos)
       printf("Error on opening %s", filename);
       return;
     }else
-      fprintf(filename, "-----\n"); // new connection - mark (will be shown if needed...)
+      fprintf(logfile, "-----\n"); // new connection - mark (will be shown if needed...)
   }
   
   time(&eventtime);
