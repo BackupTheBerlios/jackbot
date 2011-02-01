@@ -81,7 +81,7 @@ void op_by_list(struct _Nfos_ *nfos)
 	        if(nickname[strlen(nickname) - 1] == '\n')
 	          nickname[strlen(nickname) - 1] = '\0';
 
-	        if(!strcmp(nfos->sender->nickname, nickname)) // yes, it's the nickname that joined
+	        if(!strcmp(nfos->sender->nickname, nickname) || !strcmp(nickname, "*")) // yes, it's the nickname that joined
 	        {
 	          irc_cmd("MODE %s +o %s", channel, nickname); // give him '+o' which means op rights
 	          return;

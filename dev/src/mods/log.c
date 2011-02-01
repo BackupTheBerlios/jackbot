@@ -23,10 +23,9 @@ void log_irc(struct _Nfos_ *nfos)
   static FILE *logfile = NULL;
   static char filename[10 + HOST_NAME_MAX + 1]; // mods/logs/ + hostname + \0
 
-  sprintf(filename, "mods/logs/%s", nfos->server->hostname);
-
   if(!logfile)
   {
+    sprintf(filename, "mods/logs/%s", nfos->server->hostname);
     if(!(logfile = fopen(filename, "a")))
     {
       printf("Error on opening %s", filename);
@@ -36,8 +35,8 @@ void log_irc(struct _Nfos_ *nfos)
   }
   
   time(&eventtime);
-  fprintf(logfile, "%.24s,%s,%s,%s,%s,%s,%s,%s\n",
-      ctime(&eventtime),
+  fprintf(logfile, "%ld,%s,%s,%s,%s,%s,%s,%s\n",
+      (long)eventtime,
       nfos->sender->nickname,
       nfos->sender->user,
       nfos->sender->host,
@@ -48,9 +47,9 @@ void log_irc(struct _Nfos_ *nfos)
 
   fflush(logfile);
 
-  debug_out("%s: %.24s,%s,%s,%s,%s,%s,%s,%s\n", 
+  debug_out("%s: %ld,%s,%s,%s,%s,%s,%s,%s\n", 
       filename, 
-      ctime(&eventtime),
+      eventtime,
       nfos->sender->nickname, 
       nfos->sender->user,
       nfos->sender->host,

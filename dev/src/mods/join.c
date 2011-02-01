@@ -23,11 +23,16 @@ void join(struct _Nfos_ *nfos)
 {
   int pos;
 
+  if(nfos->sender->message[0] == '#')
+    for(pos = 0; nfos->sender->message[pos] != ':'; pos++);
+
   // find '#' as channelname indicator
-  for(pos = 0; nfos->sender->message[pos] != '#'; pos++)
+  while(nfos->sender->message[pos] != '#')
   {
     if(nfos->sender->message[pos] == '\0')
       return;
+
+    pos++;
   }
 
   irc_cmd("JOIN %s", &nfos->sender->message[pos]);
