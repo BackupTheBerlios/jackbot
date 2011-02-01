@@ -25,6 +25,8 @@ void join(struct _Nfos_ *nfos)
 
   if(nfos->sender->message[0] == '#')
     for(pos = 0; nfos->sender->message[pos] != ':'; pos++);
+  else
+    pos = 0;
 
   // find '#' as channelname indicator
   while(nfos->sender->message[pos] != '#')
