@@ -49,7 +49,7 @@ void addop(struct _Nfos_ *nfos)
   {
     name_to_add = &nfos->sender->message[ctr + 7];
 
-    if(! access(opfile_name, F_OK) ) // if file doesn't exist yet
+    if(!(fp_oplist = fopen(opfile_name, "r+"))) // if file doesn't exist yet
       fp_oplist = fopen(opfile_name, "w+"); // create file
 
     fp_tmplist = fopen(tmpfile_name, "w");
@@ -100,7 +100,7 @@ void addop(struct _Nfos_ *nfos)
     }
     //I didn't find the channel
     //channel and nickname have to be added
-    fprintf(fp_tmplist, "%s\n%s", channel, name_to_add);
+    fprintf(fp_tmplist, "%s\n%s\n", channel, name_to_add);
     irc_cmd("PRIVMSG %s :%s was proudly added as first OP of channel %s!", channel, name_to_add, channel);
     finish_opfile();
   }else

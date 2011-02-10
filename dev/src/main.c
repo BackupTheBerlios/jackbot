@@ -125,13 +125,19 @@ void main_while(void)
     {
       printf("Connection timed out. Reconnect...\n");
       do_connect();
+      continue;
     }
 
     pos = 0;
     if((bytes = recv(nfos->server->socket, buffer, 1024, 0)) == 0)
+    {
+      do_connect();
       continue;
+    }
 
+#if (DEBUG)
     time(&eventtime);
+#endif
     debug_out("\n%s", ctime(&eventtime));
     debug_out("buff: %.*s", bytes, buffer);
     
