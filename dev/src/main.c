@@ -202,7 +202,16 @@ void main_while(void)
 
           debug_out("MOD: %s\n", nfos->mods->name);
 
-          if(!strcmp(nfos->sender->command, nfos->mods->server_cmd) || !strcmp(cmd, nfos->mods->mod_cmd) || !strcmp("EVR", nfos->mods->server_cmd))
+          if(
+              !strcmp(nfos->sender->command, nfos->mods->server_cmd) || 
+              !strcmp(cmd, nfos->mods->mod_cmd) || 
+              !strcmp("EVR", nfos->mods->server_cmd) || 
+              (nfos->mods->requests[0] != 0 && 
+                (!strncmp(nfos->sender->request_nr, nfos->mods->requests, 3) || 
+              (nfos->mods->requests[3] != 0 && 
+                (!strncmp(nfos->sender->request_nr, &nfos->mods->requests[3], 3) || 
+              (nfos->mods->requests[6] != 0 && 
+                (!strncmp(nfos->sender->request_nr, &nfos->mods->requests[6], 3))))))))
             (*nfos->mods->mod_main)(nfos);
           nfos->mods = nfos->mods->next;
         }while(nfos->mods);

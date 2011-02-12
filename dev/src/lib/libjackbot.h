@@ -77,7 +77,7 @@ typedef struct _Mods_
   char name[MOD_NAME_MAX + 1];           // the name of your mod (20)
   char mod_cmd[MOD_CMD_MAX + 1];         // command in message, starts with ! (20), "0" is not allowed!
   char server_cmd[SERVER_CMD_MAX + 1];   // server message, as PRIVMSG or INVITE (8), "0" is not allowed!
-  char requests[][3 + 1];                // server request numbers (3)
+  char requests[9];                      // server request numbers (3 x 3)
 }_Mods_t;
 
 
