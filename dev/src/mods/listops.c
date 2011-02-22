@@ -18,7 +18,7 @@ void listops(struct _Nfos_ *nfos)
 {
   FILE *fp_list;
   int ctr, ctr2;
-  char channel[CHAN_NAME_MAX + 1];;
+  char *channel = nfos->sender->middle;
   char list_channel[CHAN_NAME_MAX + 1];
   char nickname[NICK_NAME_MAX + 1];
 
@@ -32,8 +32,6 @@ void listops(struct _Nfos_ *nfos)
     printf("Error on opening %s\n", opfile);
     return;
   }
-  
-  get_from_message(channel, GFM_CHANNEL);
     
   while(fgets(list_channel, CHAN_NAME_MAX + 1, fp_list))
   {

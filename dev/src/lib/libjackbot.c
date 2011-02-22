@@ -74,7 +74,8 @@ int get_from_message(char dest[], int type)
       tmp_pos = pos;
       while(nfos->sender->message[pos] != ' ' && nfos->sender->message[pos] != '\0') pos++; // now we have the word! write it to dest!
 
-      strncpy(dest, &nfos->sender->message[tmp_pos], pos - tmp_pos + 1); // +1 to get a \0 at the end!
+      strncpy(dest, &nfos->sender->message[tmp_pos], pos - tmp_pos);
+      dest[pos - tmp_pos] = '\0';
       debug_out("WORD: %s\n", dest);
       break;
     case GFM_CHANNEL:
@@ -95,8 +96,9 @@ int get_from_message(char dest[], int type)
 
       tmp_pos = pos;
       while(nfos->sender->message[pos] != ' ' && nfos->sender->message[pos] != '\0') pos++;
+      dest[pos - tmp_pos] = '\0';
+      strncpy(dest, &nfos->sender->message[tmp_pos], pos - tmp_pos);
 
-      strncpy(dest, &nfos->sender->message[tmp_pos], pos - tmp_pos + 1);
       debug_out("CHANNEL: %s\n", dest);
       break;
     case GFM_PARAMS:
