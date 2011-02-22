@@ -24,19 +24,13 @@ struct _Mods_ _mod_info =
 void main(struct _Nfos_ *nfos)
 {
   int ctr;
-  char *receiver, *message;
+  char receiver[NICK_NAME_MAX + 1], message[MSG_MAX + 1];
+
   // get receivers nick
-  for( ctr = 0; nfos->sender->message[ctr] != ':'; ctr++ );
+  get_from_message(receiver, GFM_WORD);
 
-  ctr += strlen(nfos->mods->mod_cmd) + 3; // plus :, ! and space
+  // get message
+  get_from_message(message, GFM_PARAMS);
 
-  receiver = &nfos->sender->message[ctr];
-
-  while( nfos->sender->message[ctr] != ' ' )
-    ctr++; 
-  nfos->sender->message[ctr] = '\0';
-
-  message = &nfos->sender->message[++ctr];
-
-  irc_cmd("NOTICE %s :%s", receiver, message);
+  irc_cmd("PRIVMSG %s :%s", receiver, message);
 }

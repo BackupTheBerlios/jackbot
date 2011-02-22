@@ -51,8 +51,21 @@ void parse_msg(char *msg)
   while(msg[msg_pos] == ' ')
     msg_pos++;
 
-  // now the rest is called "message", so all of these <params> are 'ignored'
+  if(msg[msg_pos] != ':') // we got a middle!
+  {
+    for(cur_pos = 0; msg[msg_pos] != ':'; msg_pos++, cur_pos++)
+      tmp_str[cur_pos] = msg[msg_pos];
+    // there might be spaces before colon (:)
+    for(; msg[msg_pos] == ' '; msg_pos--, cur_pos--);
+    tmp_str[--cur_pos] = '\0';
+    strncpy(nfos->sender->middle, tmp_str, MIDDLE_MAX + 1);
+  }
 
+  while(msg[msg_pos] != ':') 
+    msg_pos++;
+  msg_pos++; //because noone needs the colon (:)...
+
+  // now the rest is called "message", so all of these <params> are 'ignored'
   //strncpy(nfos->sender->message, &msg[msg_pos], MSG_MAX + 1);
   snprintf(nfos->sender->message, MSG_MAX + 1, "%s", &msg[msg_pos]);
 

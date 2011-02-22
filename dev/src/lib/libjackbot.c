@@ -44,3 +44,81 @@ void send_irc(char *msg)
 
   return;
 }
+
+int is_priv(void)
+{
+  if(nfos->sender->middle[0] == '#')
+    return 0;
+  else
+    return 1;
+}
+
+int get_from_message(char dest[], int type)
+{
+  static int pos = 0;
+  int tmp_pos = 0;
+
+  switch(type)
+  {
+    case GFM_NEW:
+      pos = 0;
+      break;
+    case GFM_WORD:
+      if(pos == 0 && nfos->sender->message[0] == '!')
+      {
+        while(nfos->sender->message[pos] != ' ')
+          pos++;
+      }
+
+      while(nfos->sender->message[pos] == ' ') pos++; // skip spaces
+      tmp_pos = pos;
+      while(nfos->sender->message[pos] != ' ' && nfos->sender->message[pos] != '\0') pos++; // now we have the word! write it to dest!
+
+      strncpy(dest, &nfos->sender->message[tmp_pos], pos - tmp_pos + 1); // +1 to get a \0 at the end!
+      debug_out("WORD: %s\n", dest);
+      break;
+    case GFM_CHANNEL:
+      while(nfos->sender->message[pos] != '\0')
+      {
+        while(nfos->sender->message[pos] == ' ') pos++;
+
+        if(nfos->sender->message[pos] != '#') // no, it's not a channel!
+        {
+          while(nfos->sender->message[pos] != ' ') pos++;
+          continue;
+        }else
+          break;
+      }
+
+      if(nfos->sender->message[pos] == '\0')
+        return 0;
+
+      tmp_pos = pos;
+      while(nfos->sender->message[pos] != ' ' && nfos->sender->message[pos] != '\0') pos++;
+
+      strncpy(dest, &nfos->sender->message[tmp_pos], pos - tmp_pos + 1);
+      debug_out("CHANNEL: %s\n", dest);
+      break;
+    case GFM_PARAMS:
+      if(pos == 0 && nfos->sender->message[0] == '!')
+      {
+        while(nfos->sender->message[pos] != ' ')
+          pos++;
+      }
+
+      while(nfos->sender->message[pos] == ' ') pos++;
+
+      tmp_pos = pos;
+      while(nfos->sender->message[pos] != '\0') pos++;
+
+      strncpy(dest, &nfos->sender->message[tmp_pos], pos - tmp_pos + 1);
+      debug_out("PARAMS: %s\n", dest);
+      break;
+    default:
+      return 0;
+      break;
+  }
+
+  return 1;
+}
+

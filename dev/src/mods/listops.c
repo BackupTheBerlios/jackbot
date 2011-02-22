@@ -22,6 +22,9 @@ void listops(struct _Nfos_ *nfos)
   char list_channel[CHAN_NAME_MAX + 1];
   char nickname[NICK_NAME_MAX + 1];
 
+  if(is_priv())
+    return;
+
   fp_list = fopen(opfile, "r");
   
   if(fp_list == NULL)
@@ -30,11 +33,8 @@ void listops(struct _Nfos_ *nfos)
     return;
   }
   
-  for(ctr = 0; nfos->sender->message[ctr] != '#'; ctr++);
-  for(ctr2 = 0; nfos->sender->message[ctr + ctr2] != ' ' && ctr2 <= CHAN_NAME_MAX; ctr2++)
-    channel[ctr2] = nfos->sender->message[ctr + ctr2];
-  channel[ctr2] = '\0';
-  
+  get_from_message(channel, GFM_CHANNEL);
+    
   while(fgets(list_channel, CHAN_NAME_MAX + 1, fp_list))
   {
     if(list_channel[0] == '#')

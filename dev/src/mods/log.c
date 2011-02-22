@@ -35,7 +35,7 @@ void log_irc(struct _Nfos_ *nfos)
   }
   
   time(&eventtime);
-  fprintf(logfile, "%ld,%s,%s,%s,%s,%s,%s,%s\n",
+  fprintf(logfile, "%ld,%s,%s,%s,%s,%s,%s,%s,%s\n",
       (long)eventtime,
       nfos->sender->nickname,
       nfos->sender->user,
@@ -43,11 +43,12 @@ void log_irc(struct _Nfos_ *nfos)
       nfos->sender->servername,
       nfos->sender->command,
       nfos->sender->request_nr,
+      nfos->sender->middle,
       nfos->sender->message);
 
   fflush(logfile);
 
-  debug_out("%s: %ld,%s,%s,%s,%s,%s,%s,%s\n", 
+  debug_out("%s: %ld,%s,%s,%s,%s,%s,%s,%s,%s\n", 
       filename, 
       eventtime,
       nfos->sender->nickname, 
@@ -56,5 +57,6 @@ void log_irc(struct _Nfos_ *nfos)
       nfos->sender->servername,
       nfos->sender->command,
       nfos->sender->request_nr,
+      nfos->sender->middle,
       nfos->sender->message);
 }

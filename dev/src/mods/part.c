@@ -25,19 +25,12 @@ void part(struct _Nfos_ *nfos)
   char channel[CHAN_NAME_MAX + 1];
 
   debug_out("It's %s!\n", nfos->sender->nickname);
-  if(nfos->sender->message[0] == '#') // if it's from a channel, no private message
+  if(is_priv()) // if it's from a channel, no private message
   {
-    for(ctr = 0; nfos->sender->message[ctr] != ' '; ctr++)
-      channel[ctr] = nfos->sender->message[ctr];
-
-    channel[ctr] = '\0';
-  }else // if it was a private message
+    get_from_message(channel, GFM_CHANNEL);
+  }else
   {
-    for(ctr = 0; nfos->sender->message[ctr] != '!'; ctr++);
-    for(; nfos->sender->message[ctr] != '#'; ctr++);
-
-    channel[CHAN_NAME_MAX] = '\0';
-    strncpy(channel, &nfos->sender->message[ctr], CHAN_NAME_MAX);
+    strncpy(channel, nfos->sender->middle, CHAN_NAME_MAX);
   }
     
   irc_cmd("PART %s :see ya'll, %s wants me to leave!", channel, nfos->sender->nickname);

@@ -20,6 +20,7 @@
 #define PORT_MAX       5
 #define NICK_NAME_MAX  24
 #define SERVER_CMD_MAX 8
+#define MIDDLE_MAX     512
 #define CMD_PREFIX     '!'
 
 // defined by RFC 1459; 1.3 */
@@ -36,6 +37,12 @@
 // define macros
 #define irc_cmd(...) snprintf(buffer_, MSG_MAX, __VA_ARGS__);\
         send_irc(buffer_);
+
+// these are for get_from_message():
+#define GFM_NEW     0 // init get_from_message()
+#define GFM_WORD    1 // next word. not !cmd and no #channels!
+#define GFM_CHANNEL 2 // next channel. skips all words before
+#define GFM_PARAMS  3 // everything after last calls position, if first call everything after !cmd
 
 #if (DEBUG)
 #define debug_out(...) fprintf(stderr, __VA_ARGS__);
@@ -67,6 +74,7 @@ typedef struct _Sender_
   char servername[HOST_NAME_MAX + 1]; // servername; see RFC 952 for max length
   char command[SERVER_CMD_MAX + 1];   // command
   char request_nr[3 + 1];             // requestnumber (as a string!)
+  char middle[MIDDLE_MAX + 1];        // a middle - see RFC 1459, section 2.3.1
   char message[MSG_MAX + 1];
 }_Sender_t;
 
@@ -91,6 +99,8 @@ typedef struct _Nfos_
 
 // define prototypes
 void send_irc(char *msg);
+int is_priv(void);
+int get_from_message(char dest[], int type);
 
 // define globals
 _Nfos_t *nfos;

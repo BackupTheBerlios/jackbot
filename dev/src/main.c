@@ -163,6 +163,7 @@ void main_while(void)
             "    char servername[] = \"%s\";\n"
             "    char command[]    = \"%s\";\n"
             "    char request_nr[] = \"%s\";\n"
+            "    char middle[]     = \"%s\";\n"
             "    char message[]    = \"%s\";\n",
             nfos->server->socket,
             nfos->server->hostname,
@@ -174,6 +175,7 @@ void main_while(void)
             (nfos->sender->servername) ? nfos->sender->servername : "",
             (nfos->sender->command) ? nfos->sender->command : "",
             (nfos->sender->request_nr) ? nfos->sender->request_nr : "",
+            nfos->sender->middle,
             nfos->sender->message);
 
         nfos->mods = nfos->first_mod;
@@ -181,16 +183,11 @@ void main_while(void)
 
         if((!strcmp(nfos->sender->command, "PRIVMSG") || !strcmp(nfos->sender->command, "NOTICE")))
         {
-          ctr = 0;
-          while(nfos->sender->message[ctr] != ':')
-            ctr++;
-          ctr++; // point after the colon
-
-          if(ctr > 1 && (nfos->sender->message[ctr] == CMD_PREFIX && isgraph(nfos->sender->message[ctr + 1])))
+          if((nfos->sender->message[0] == CMD_PREFIX && isgraph(nfos->sender->message[1])))
           {
             ctr++; // point after the CMD_PREFIX
-            for(cmd_len = 0; nfos->sender->message[ctr + cmd_len] != ' ' && cmd_len < MOD_CMD_MAX; cmd_len++)
-              cmd[cmd_len] = nfos->sender->message[ctr + cmd_len];
+            for(cmd_len = 0; nfos->sender->message[1 + cmd_len] != ' ' && cmd_len < MOD_CMD_MAX; cmd_len++)
+              cmd[cmd_len] = nfos->sender->message[1 + cmd_len];
             cmd[cmd_len] = '\0';
           }else
             strcpy(cmd, "0");
@@ -199,8 +196,9 @@ void main_while(void)
 
         do
         {
-
           debug_out("MOD: %s\n", nfos->mods->name);
+
+          get_from_message(NULL, GFM_NEW);
 
           if(
               !strcmp(nfos->sender->command, nfos->mods->server_cmd) || 

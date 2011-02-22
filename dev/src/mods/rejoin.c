@@ -41,13 +41,14 @@ void rejoin(struct _Nfos_ *nfos)
 
   if(!strcmp(nfos->sender->command, "JOIN"))
   {
-    for(pos = 0; nfos->sender->message[pos] != '#'; pos++);
+    //for(pos = 0; nfos->sender->message[pos] != '#'; pos++);
+    get_from_message(channel, GFM_CHANNEL);
     
     // search in struct
     for(channels = firstchan; channels; channels = channels->next)
     {
       // found: return
-      if(!strcmp(&nfos->sender->message[pos], channels->channel))
+      if(!strcmp(channel, channels->channel))
       {
         debug_out("Channel allready in list!\n");
         return;
@@ -69,8 +70,8 @@ void rejoin(struct _Nfos_ *nfos)
       channels->prev = tempchan;
       tempchan->next = channels;
     }
-    strncpy(channels->channel, &nfos->sender->message[pos], CHAN_NAME_MAX);
-    debug_out("Channel %s not in list. Was added!\n", &nfos->sender->message[pos]);
+    strncpy(channels->channel, channel, CHAN_NAME_MAX);
+    debug_out("Channel %s not in list. Was added!\n", channel);
   }else if(!strcmp(nfos->sender->request_nr, "001"))
   {
     for(channels = firstchan; channels != NULL; channels = channels->next)
@@ -80,13 +81,9 @@ void rejoin(struct _Nfos_ *nfos)
     }
   }else // !part
   {
-    for(pos = 0; nfos->sender->message[pos] != ' '; pos++)
-      channel[pos] = nfos->sender->message[pos];
-    channel[pos] = 0;
-
     for(channels = firstchan; channels != NULL; channels = channels->next)
     {
-      if(!strcmp(channel, channels->channel))
+      if(!strcmp(nfos->sender->middle, channels->channel))
       {
         if(channels->prev) // if we are not the first chan
           channels->prev->next = channels->next;

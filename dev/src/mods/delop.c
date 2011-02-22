@@ -27,12 +27,15 @@ char *tmpfile_name = "mods/tmpfile.mod";
 void delop(struct _Nfos_ *nfos)
 {
   int ctr = 0;
-  char channel[CHAN_NAME_MAX + 1];
+  char *channel = nfos->sender->middle;
   char list_channel[CHAN_NAME_MAX + 1];
   char nickname[NICK_NAME_MAX + 1];
-  char *name_to_del;
+  char name_to_del[NICK_NAME_MAX + 1];
 
-  if(nfos->sender->message[0] == '#')
+  if(is_priv())
+    return;
+
+  /*if(nfos->sender->message[0] == '#')
   {
     for(ctr = 0; nfos->sender->message[ctr] != ' '; ctr++)
       channel[ctr] = nfos->sender->message[ctr];             
@@ -42,12 +45,10 @@ void delop(struct _Nfos_ *nfos)
 
   while(nfos->sender->message[ctr] != ':')
     ctr++;
-  ctr++;
+  ctr++;*/
 
-  if(isgraph(nfos->sender->message[ctr + 7]))
+  if(get_from_message(name_to_del, GFM_WORD))
   {
-    name_to_del = &nfos->sender->message[ctr + 7];
-
     if(!(fp_oplist = fopen(opfile_name, "r+"))) // if file doesn't exist yet
     {
       irc_cmd("PRIVMSG %s :%s is not in the OP list of %s!", channel, name_to_del, channel);

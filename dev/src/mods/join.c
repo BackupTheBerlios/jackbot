@@ -21,21 +21,9 @@ struct _Mods_ _mod_info =
  */
 void join(struct _Nfos_ *nfos)
 {
-  int pos;
+  char channel[CHAN_NAME_MAX + 1];
 
-  if(nfos->sender->message[0] == '#')
-    for(pos = 0; nfos->sender->message[pos] != ':'; pos++);
-  else
-    pos = 0;
+  get_from_message(channel, GFM_CHANNEL);
 
-  // find '#' as channelname indicator
-  while(nfos->sender->message[pos] != '#')
-  {
-    if(nfos->sender->message[pos] == '\0')
-      return;
-
-    pos++;
-  }
-
-  irc_cmd("JOIN %s", &nfos->sender->message[pos]);
+  irc_cmd("JOIN %s", channel);
 }

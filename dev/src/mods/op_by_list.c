@@ -37,7 +37,7 @@ void op_by_list(struct _Nfos_ *nfos)
 {
   static FILE *fp_list;
   int ctr, ctr2;
-  char channel[CHAN_NAME_MAX + 1];;
+  char *channel = nfos->sender->middle; //[CHAN_NAME_MAX + 1];;
   char list_channel[CHAN_NAME_MAX + 1];
   char nickname[NICK_NAME_MAX + 1];
 
@@ -54,10 +54,11 @@ void op_by_list(struct _Nfos_ *nfos)
   }
   
   // GETTING THE CHANNEL NAME FROM THE JOIN MESSAGE
-  for(ctr = 0; nfos->sender->message[ctr] != '#'; ctr++);
-  for(ctr2 = 0; nfos->sender->message[ctr + ctr2] != ' ' && ctr2 <= CHAN_NAME_MAX; ctr2++)
-    channel[ctr2] = nfos->sender->message[ctr + ctr2];
-  channel[ctr2] = '\0';
+  /*for(ctr = 0; nfos->sender->middle[ctr] != '#'; ctr++);
+  for(ctr2 = 0; nfos->sender->middle[ctr + ctr2] != ' ' && ctr2 <= CHAN_NAME_MAX; ctr2++)
+    channel[ctr2] = nfos->sender->middle[ctr + ctr2];
+  channel[ctr2] = '\0';*/
+
   
   // SEARCHING THROUGH THE OPFILE LINE BY LINE
   while(fgets(list_channel, CHAN_NAME_MAX + 1, fp_list))

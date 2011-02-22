@@ -28,12 +28,12 @@ char *tmpfile_name = "mods/tmpfile.mod";
 void addop(struct _Nfos_ *nfos)
 {
   int ctr = 0;
-  char channel[CHAN_NAME_MAX + 1];
+  char *channel = nfos->sender->middle;
   char list_channel[CHAN_NAME_MAX + 1];
   char nickname[NICK_NAME_MAX + 1];
-  char *name_to_add;
+  char name_to_add[NICK_NAME_MAX + 1];
 
-  if(nfos->sender->message[0] == '#')
+  /*if(nfos->sender->message[0] == '#')
   {
     for(ctr = 0; nfos->sender->message[ctr] != ' '; ctr++)
       channel[ctr] = nfos->sender->message[ctr];             
@@ -43,11 +43,14 @@ void addop(struct _Nfos_ *nfos)
 
   while(nfos->sender->message[ctr] != ':')
     ctr++;
-  ctr++;
+  ctr++;*/
 
-  if(isgraph(nfos->sender->message[ctr + 7]))
+  if(is_priv())
+    return;
+
+  if(get_from_message(name_to_add, GFM_WORD))
   {
-    name_to_add = &nfos->sender->message[ctr + 7];
+    //name_to_add = &nfos->sender->message[ctr + 7];
 
     if(!(fp_oplist = fopen(opfile_name, "r+"))) // if file doesn't exist yet
       fp_oplist = fopen(opfile_name, "w+"); // create file
