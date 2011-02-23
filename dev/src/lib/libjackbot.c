@@ -63,6 +63,21 @@ int get_from_message(char dest[], int type)
     case GFM_NEW:
       pos = 0;
       break;
+    case GFM_CMD:
+      if(nfos->sender->message[0] == CMD_PREFIX && isgraph(nfos->sender->message[1]))
+      {
+        tmp_pos = pos;
+        pos = 1;
+ 
+        while(nfos->sender->message[pos] != ' ' && pos < MOD_CMD_MAX) pos++;
+        strncpy(dest, &nfos->sender->message[1], pos);
+     
+        pos = tmp_pos;
+        debug_out("CMD: %s\n", dest);
+      }else
+        return 0;
+
+      break;
     case GFM_WORD:
       if(pos == 0 && nfos->sender->message[0] == '!')
       {

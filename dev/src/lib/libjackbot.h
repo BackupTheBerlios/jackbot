@@ -40,9 +40,10 @@
 
 // these are for get_from_message():
 #define GFM_NEW     0 // init get_from_message()
-#define GFM_WORD    1 // next word. not !cmd and no #channels!
-#define GFM_CHANNEL 2 // next channel. skips all words before
-#define GFM_PARAMS  3 // everything after last calls position, if first call everything after !cmd
+#define GFM_CMD     1 // the !cmd
+#define GFM_WORD    2 // next word. not !cmd 
+#define GFM_CHANNEL 3 // next channel. skips all words before
+#define GFM_PARAMS  4 // everything after last calls position, if first call everything after !cmd
 
 #if (DEBUG)
 #define debug_out(...) fprintf(stderr, __VA_ARGS__);

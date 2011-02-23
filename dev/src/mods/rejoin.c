@@ -36,7 +36,6 @@ Channels *firstchan, *channels, *tempchan;
  */
 void rejoin(struct _Nfos_ *nfos)
 {
-  int pos;
   char channel[CHAN_NAME_MAX + 1];
 
   if(!strcmp(nfos->sender->command, "JOIN"))
