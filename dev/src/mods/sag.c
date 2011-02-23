@@ -22,7 +22,7 @@ struct _Mods_ _mod_info = // for description see ping.c
 void sag(struct _Nfos_ *nfos)
 {
   int ctr = 0;
-  char message[MSG_MAX];
+  char message[MSG_MAX + 1];
   
   get_from_message(message, GFM_PARAMS); 
   irc_cmd("PRIVMSG %s :%s", nfos->sender->middle, message);
