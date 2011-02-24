@@ -10,6 +10,8 @@ void send_irc(char *msg)
   char full_msg[MSG_MAX + 1], cmd[MSG_MAX + 1];
   char *line, *cmd_end;
 
+  debug_out("msg: %s\n", msg);
+
   if(strchr(msg, '\n'))
   {
     if((cmd_end = strchr(msg, ':')))
@@ -71,9 +73,10 @@ int get_from_message(char dest[], int type)
  
         while(nfos->sender->message[pos] != ' ' && pos < MOD_CMD_MAX) pos++;
         strncpy(dest, &nfos->sender->message[1], pos);
-     
+        dest[pos - 1] = '\0'; 
+
         pos = tmp_pos;
-        debug_out("CMD: %s\n", dest);
+        debug_out("CMD: |%s|\n", dest);
       }else
         return 0;
 
@@ -91,7 +94,7 @@ int get_from_message(char dest[], int type)
 
       strncpy(dest, &nfos->sender->message[tmp_pos], pos - tmp_pos);
       dest[pos - tmp_pos] = '\0';
-      debug_out("WORD: %s\n", dest);
+      debug_out("WORD: |%s|\n", dest);
       break;
     case GFM_CHANNEL:
       while(nfos->sender->message[pos] != '\0')
@@ -114,7 +117,7 @@ int get_from_message(char dest[], int type)
       dest[pos - tmp_pos] = '\0';
       strncpy(dest, &nfos->sender->message[tmp_pos], pos - tmp_pos);
 
-      debug_out("CHANNEL: %s\n", dest);
+      debug_out("CHANNEL: |%s|\n", dest);
       break;
     case GFM_PARAMS:
       if(pos == 0 && nfos->sender->message[0] == '!')
@@ -129,7 +132,7 @@ int get_from_message(char dest[], int type)
       while(nfos->sender->message[pos] != '\0') pos++;
 
       strncpy(dest, &nfos->sender->message[tmp_pos], pos - tmp_pos + 1);
-      debug_out("PARAMS: %s\n", dest);
+      debug_out("PARAMS: |%s|\n", dest);
       break;
     default:
       return 0;
