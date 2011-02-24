@@ -1,11 +1,11 @@
 #include "../lib/libjackbot.h"
 
-void main(struct _Nfos_ *nfos); 
+void anonmsg(struct _Nfos_ *nfos); 
 
 struct _Mods_ _mod_info = 
 {                         
   NULL,                   
-  &main,                  
+  &anonmsg,                  
   "Anonymous Message",
   "anonmsg",                    
   "",                
@@ -21,7 +21,7 @@ struct _Mods_ _mod_info =
  * To use it do
  *   /NOTICE JacKBot !anonmsg sergiorey Merry Christmas!
  */
-void main(struct _Nfos_ *nfos)
+void anonmsg(struct _Nfos_ *nfos)
 {
   int ctr;
   char receiver[NICK_NAME_MAX + 1], message[MSG_MAX + 1];
