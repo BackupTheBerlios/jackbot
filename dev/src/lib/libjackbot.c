@@ -82,7 +82,7 @@ int get_from_message(char dest[], int type)
 
       break;
     case GFM_WORD:
-      if(pos == 0 && nfos->sender->message[0] == '!')
+      if(pos == 0 && nfos->sender->message[0] == CMD_PREFIX)
       {
         while(nfos->sender->message[pos] != ' ')
           pos++;
@@ -120,7 +120,7 @@ int get_from_message(char dest[], int type)
       debug_out("CHANNEL: |%s|\n", dest);
       break;
     case GFM_PARAMS:
-      if(pos == 0 && nfos->sender->message[0] == '!')
+      if(pos == 0 && nfos->sender->message[0] == CMD_PREFIX)
       {
         while(nfos->sender->message[pos] != ' ')
           pos++;
