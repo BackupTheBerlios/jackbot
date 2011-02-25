@@ -126,7 +126,7 @@ int get_from_message(char dest[], int type)
           pos++;
       }
 
-      while(nfos->sender->message[pos] == ' ') pos++;
+      while(nfos->sender->message[pos] == ' ' && nfos->sender->message[pos] != '\0') pos++;
 
       tmp_pos = pos;
       while(nfos->sender->message[pos] != '\0') pos++;
