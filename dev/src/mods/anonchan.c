@@ -102,7 +102,6 @@ void modmain(struct _Nfos_ *nfos)
           {
             if(strcmp(nicklist->nick, nfos->sender->nickname)) // if it's NOT the senders nickname!
             {
-              debug_out("PRIVMSG %s :%s\n", nicklist->nick, nfos->sender->message);
               irc_cmd("PRIVMSG %s :%s", nicklist->nick, nfos->sender->message);
             }
 
