@@ -26,6 +26,4 @@ void invite(struct _Nfos_ *nfos)
   for(msg_pos = 0; *(nfos->sender->middle + msg_pos) != '#'; msg_pos++);
 
   irc_cmd("JOIN %s", nfos->sender->middle + msg_pos); 
-
-  irc_cmd("PRIVMSG %s :%s, thx for invitation!", nfos->sender->middle + msg_pos, nfos->sender->nickname);
 }

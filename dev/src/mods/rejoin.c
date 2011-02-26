@@ -76,7 +76,9 @@ void rejoin(struct _Nfos_ *nfos)
     for(channels = firstchan; channels != NULL; channels = channels->next)
     {
       if(channels->channel[0] == '#')
+      {
         irc_cmd("JOIN %s", channels->channel);
+      }
     }
   }else // !part
   {

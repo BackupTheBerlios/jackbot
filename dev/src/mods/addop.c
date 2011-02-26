@@ -107,7 +107,9 @@ void addop(struct _Nfos_ *nfos)
     irc_cmd("PRIVMSG %s :%s was proudly added as first OP of channel %s!", channel, name_to_add, channel);
     finish_opfile();
   }else
+  {
     irc_cmd("PRIVMSG %s :You did not enter a nickname!", channel);
+  }
 }
 
 void finish_opfile(void)

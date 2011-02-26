@@ -36,9 +36,7 @@
 #define MOD_PATH_MAX 255
 
 // define macros
-#define irc_cmd(...) \
-  snprintf(buffer_, MSG_MAX, __VA_ARGS__);\
-  send_irc(buffer_);
+#define irc_cmd(...) snprintf(buffer_, MSG_MAX, __VA_ARGS__); send_irc(buffer_);
 
 // these are for get_from_message():
 #define GFM_NEW     0 // init get_from_message()

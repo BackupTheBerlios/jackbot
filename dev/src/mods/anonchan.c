@@ -31,7 +31,7 @@ void modmain(struct _Nfos_ *nfos)
   char cmd[MOD_CMD_MAX + 1];
   char param[MSG_MAX + 1]; // join/part + \0, we just need 5. but perhaps he wrote "!anonchan aoesuaosunthaoesunthaosentilrchb,.lrcp'p839g98ga[.e98uch" ...
 
-  if(get_from_message(cmd, GFM_CMD) && strcmp(cmd, nfos->mods->mod_cmd)) // someone typd "!anonchan ..."
+  if(get_from_message(cmd, GFM_CMD) && !strcmp(cmd, nfos->mods->mod_cmd)) // someone typd "!anonchan ..."
   {
     get_from_message(param, GFM_PARAMS);
 
@@ -87,7 +87,9 @@ void modmain(struct _Nfos_ *nfos)
       // no, he was not in anonchan...
       irc_cmd("NOTICE %s :You are not in anonchan! Do \"%canonchan join\" to join us!", nfos->sender->nickname, CMD_PREFIX);
     }else
+    {
       irc_cmd("NOTICE %s :%s is not valid. Try \"%canonchan join\" to join anonchan and \"%canonchan part\" to part anonchan.", nfos->sender->nickname, param, CMD_PREFIX, CMD_PREFIX);
+    }
   }else // message to broadcast to anonchan
   {
     if(nfos->sender->middle[0] != '#')

@@ -105,7 +105,9 @@ void delop(struct _Nfos_ *nfos)
     irc_cmd("PRIVMSG %s :%s is not in the OP list of this channel!", channel, name_to_del);
     finish_opfile();
   }else
+  {
     irc_cmd("PRIVMSG %s :You did not enter a nickname!", channel);
+  }
 }
 
 void finish_opfile(void)
