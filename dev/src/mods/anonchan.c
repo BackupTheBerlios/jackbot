@@ -92,7 +92,7 @@ void modmain(struct _Nfos_ *nfos)
     }
   }else // message to broadcast to anonchan
   {
-    if(nfos->sender->middle[0] != '#')
+    if(nfos->sender->middle[0] != '#' && nfos->sender->message[0] != CMD_PREFIX)
     {
       for(nicklist = firstnick; nicklist; nicklist = nicklist->next) // check, if he is in anonchan, so is as able to write here
       {
