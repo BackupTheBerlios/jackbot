@@ -61,13 +61,17 @@ void parse_msg(char *msg)
     strncpy(nfos->sender->middle, tmp_str, MIDDLE_MAX + 1);
   }
 
-  while(msg[msg_pos] != ':' && msg_pos < MSG_MAX) 
+  while(msg[msg_pos] != ':' && msg[msg_pos] != '\0') 
     msg_pos++;
-  msg_pos++; //because noone needs the colon (:)...
 
-  // now the rest is called "message", so all of these <params> are 'ignored'
-  //strncpy(nfos->sender->message, &msg[msg_pos], MSG_MAX + 1);
-  snprintf(nfos->sender->message, MSG_MAX + 1, "%s", &msg[msg_pos]);
+  if(msg[msg_pos] == ':')
+  {
+    msg_pos++; //because noone needs the colon (:)...
+
+    // now the rest is called "message", so all of these <params> are 'ignored'
+    //strncpy(nfos->sender->message, &msg[msg_pos], MSG_MAX + 1);
+    snprintf(nfos->sender->message, MSG_MAX + 1, "%s", &msg[msg_pos]);
+  }
   
   return;
 }

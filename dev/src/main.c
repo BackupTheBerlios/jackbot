@@ -179,7 +179,6 @@ void main_while(void)
             nfos->sender->message);
 
         nfos->mods = nfos->first_mod;
-        memset(msg, 0, MSG_MAX + 1);
         memset(cmd, 0, MOD_CMD_MAX + 1);
 
         if((!strcmp(nfos->sender->command, "PRIVMSG") || !strcmp(nfos->sender->command, "NOTICE")))
