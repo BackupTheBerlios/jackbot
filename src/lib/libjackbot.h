@@ -13,7 +13,7 @@
 #include <ctype.h>
 
 #define APP_NAME "JacKBot"
-#define AUTHOR   "JacK_McRiDER"
+#define APP_WWW  "http://jackbot.berlios.de/"
 #define VERSION  "0.2-BETA"
 
 #undef HOST_NAME_MAX

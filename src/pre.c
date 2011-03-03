@@ -84,7 +84,7 @@ void do_connect(void)
   // next two lines are just for debugging
   //recv(nfos->server->socket, buffer_, 1024, 0);
   //printf(buffer_);
-  irc_cmd("USER %s 0 0 :%s by %s", nfos->server->nickname, APP_NAME, AUTHOR);
+  irc_cmd("USER %s 0 0 :%s - %s", APP_NAME, APP_WWW);
   // next two lines are just for debugging
   //recv(nfos->server->socket, buffer_, 1024, 0);
   //printf(buffer_);

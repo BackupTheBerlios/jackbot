@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 
   printf(
     "WELCOME! YOU'VE GOT THE JACKBOT\n"
-    "  visit http://developer.berlios.de/projects/jackbot/\n"
+    "  visit http://jackbot.berlios.de/\n"
     "  for more informations...\n\n");
 
   debug_out("Compiled with debug output!\n");
