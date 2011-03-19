@@ -4,7 +4,6 @@ void op_by_list(struct _Nfos_ *nfos);
 
 struct _Mods_ _mod_info = // for describtion see pong.c
 {
-  NULL,
   &op_by_list,
   "OP by list",
   "",

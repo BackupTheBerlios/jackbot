@@ -12,7 +12,6 @@ void finish_opfile(void);
 
 struct _Mods_ _mod_info =
 {
-  NULL,
   &addop,
   "Add OP",
   "addop",

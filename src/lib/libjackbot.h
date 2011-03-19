@@ -81,12 +81,14 @@ typedef struct _Sender_
 
 typedef struct _Mods_
 {
-  struct _Mods_ *next;                   // don't use it... init as NULL
   void (*mod_main)(struct _Nfos_ *nfos); // pointer to the mods main, init as &your_mods_main
   char name[MOD_NAME_MAX + 1];           // the name of your mod (20)
   char mod_cmd[MOD_CMD_MAX + 1];         // command in message, starts with ! (20), "0" is not allowed!
   char server_cmd[SERVER_CMD_MAX + 1];   // server message, as PRIVMSG or INVITE (8), "0" is not allowed!
   char requests[9];                      // server request numbers (3 x 3)
+  void (*mod_init)();                    // pointer to initiation function of the mod, init as &your_init or NULL
+  void (*mod_quit)();                    // pointer to your mods quit function (file saves etc...); &your_quit or NULL
+  struct _Mods_ *next;                   // don't use it... init as NULL
 }_Mods_t;
 
 

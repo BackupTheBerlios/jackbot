@@ -11,7 +11,6 @@ void finish_opfile(void);
 
 struct _Mods_ _mod_info =
 {
-  NULL,
   &delop,
   "Delete OP",
   "delop",

@@ -145,6 +145,9 @@ inline void load_mods(void)
             nfos->mods->next = NULL; // set pointer of next on NULL
           }
           printf(" OK!\n");
+
+          if(nfos->mods->mod_init)
+            (*nfos->mods->mod_init)();
         }
         // printf(nfos->mods->name);
       } // if is *.so

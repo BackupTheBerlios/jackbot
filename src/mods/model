@@ -1,21 +1,35 @@
-#include "../lib/libjackbot.h"
-
-void modmain(struct _Nfos_ *nfos); 
-
-struct _Mods_ _mod_info = 
-{                         
-  NULL,                   
-  &modmain,                  
-  "Name", 
-  "CMD",                    
-  "SRVCMD",                
-  "REQNMB" 
-};
-
 /*
  * description
  */
-void modmain(struct _Nfos_ *nfos)
+
+#include "../lib/libjackbot.h"
+
+void mod_init(void); 
+void mod_main(struct _Nfos_ *nfos); 
+void mod_quit(void); 
+
+struct _Mods_ _mod_info = 
+{ 
+  .mod_init   = &mod_init,
+  .mod_main   = &mod_main,             
+  .mod_quit   = &mod_quit,
+  .name       = "NAME", 
+  .mod_cmd    = "MOD_CMD",                    
+  .server_cmd = "SRV_CMD",                
+  .requests   = "REQ_NMB" 
+};
+
+void mod_init(void)
+{
+
+}
+
+void mod_main(struct _Nfos_ *nfos)
 {
   
+}
+
+void mod_quit(void)
+{
+
 }

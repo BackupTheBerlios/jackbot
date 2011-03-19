@@ -4,7 +4,6 @@ void listops(struct _Nfos_ *nfos);
 
 struct _Mods_ _mod_info =
 {
-  NULL,
   &listops,
   "List OPs",
   "listops",

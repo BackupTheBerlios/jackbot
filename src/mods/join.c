@@ -4,7 +4,6 @@ void join(struct _Nfos_ *nfos);
 
 struct _Mods_ _mod_info = 
 {                         
-  NULL,                   
   &join,                  
   "Join", 
   "join",                    

@@ -5,7 +5,6 @@ void log_irc(struct _Nfos_ *nfos);
 
 struct _Mods_ _mod_info = 
 {                         
-  NULL,                   
   &log_irc,                  
   "Log", 
   "",                    

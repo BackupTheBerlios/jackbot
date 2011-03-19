@@ -4,7 +4,6 @@ void anonmsg(struct _Nfos_ *nfos);
 
 struct _Mods_ _mod_info = 
 {                         
-  NULL,                   
   &anonmsg,                  
   "Anonymous Message",
   "anonmsg",                    

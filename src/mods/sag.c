@@ -4,7 +4,6 @@ void sag(struct _Nfos_ *nfos);
 
 struct _Mods_ _mod_info = // for description see ping.c
 {
-  NULL,
   &sag,
   "Sag",
   "sag",

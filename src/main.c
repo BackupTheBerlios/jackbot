@@ -228,6 +228,12 @@ void main_while(void)
 
 void quit(void)
 {
+  for(nfos->mods = nfos->first_mod; nfos->mods; nfos->mods = nfos->mods->next)
+  {
+    if(nfos->mods->mod_quit)
+      (*nfos->mods->mod_quit)();
+  }
+
   printf("Exit!\n");
   printf(BREAK); 
   fflush(stdout);

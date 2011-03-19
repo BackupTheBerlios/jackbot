@@ -4,7 +4,6 @@ void ping(struct _Nfos_ *nfos); // prototype of the 'main' of the mod (because i
 
 struct _Mods_ _mod_info = // This is the mod struct given in libjackbot.h,
 {                         //   it gives the 'core' everything it needs for starting the mod
-  NULL,                   // struct _Mods_ *next; -> will be set as pointer to the next mod in a chain list
   &ping,                  // (*mod_main)(struct _Nfos_ *nfos);  -> pointer to the 'main' of the mod, for the 'core' for starting it
   "Ping",                 // char name[];         -> the name of the mod as a string
   "",                     // char mod_cmd[];      -> the command for starting mod from channel with a leading '!'

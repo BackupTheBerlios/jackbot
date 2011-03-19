@@ -4,7 +4,6 @@ void invite(struct _Nfos_ *nfos);
 
 struct _Mods_ _mod_info = // for discribtions see ping.c
 {
-  NULL,
   &invite,
   "Invite",
   "",

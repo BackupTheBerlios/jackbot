@@ -4,10 +4,9 @@ void memo(struct _Nfos_ *nfos);
 
 struct _Mods_ _mod_info = 
 {                        
-  NULL,                 
   &memo,               
   "Memo",             
-  "!memo",           
+  "memo",           
   "JOIN",           
   ""              
 };               
