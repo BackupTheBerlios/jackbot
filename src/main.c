@@ -143,7 +143,7 @@ void main_while(void)
     
     while(pos < bytes)
     {
-      if(buffer[pos] == '\r' && buffer[pos + 1] == '\n')
+      if(buffer[pos] == '\n' || (buffer[pos] == '\r' && buffer[pos + 1] == '\n'))
       {
         msg[msg_pos] = '\0';
         parse_msg(msg);
@@ -215,7 +215,11 @@ void main_while(void)
         }while(nfos->mods);
 
         msg_pos = 0; // new line
-        pos += 2; // point behind <crlf>
+
+        if(buffer[pos] == '\n')
+          pos += 1; // some servers, like euirc, don't regard the rfc... they just do <lf> instead of <crlf>
+        else // if(buffer[pos] == '\r' && buffer[pos + 1] == '\n')
+          pos += 2; // point behind <crlf>
       }else
       {
         msg[msg_pos++] = buffer[pos++];
